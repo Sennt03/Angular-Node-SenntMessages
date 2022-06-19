@@ -1,0 +1,125 @@
+<div class="container">
+    <div class="header">
+        <mat-icon class="back" (click)="closeProfile()">arrow_back</mat-icon>
+        <p>Profile</p>
+    </div>
+    <div class="main">
+        <div class="image animate__animated animate__zoomIn animate__faster animate__delay-2s">
+            <div class="image_modal">
+                <img [src]="user.image.url" [alt]="user.name">
+            </div>
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu to open options to image">
+                <mat-icon>linked_camera</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu" yPosition="above">
+                <button mat-menu-item (click)="viewPhoto(user.image.url)"><span>View photo</span></button>
+                <button mat-menu-item (click)="uploadPhoto(file)"><span>Upload photo</span></button>
+                <button mat-menu-item (click)="removePhoto()"><span>Remove photo</span></button>
+            </mat-menu>
+        </div>
+
+        <input #file type="file" accept="image/*" style="display: none;"
+        (change)="uploadPhoto(false, $event)" id="inputFile">
+
+        
+        <div class="inputs animate__animated animate__fadeInDown">
+            <div class="div_input">
+                <label>Your name</label>
+                <div class="border">
+                    <input #input_name type="text" matInput [formControl]="name" autocomplete="off" name="name">
+                    <mat-icon class="btn-edit" *ngIf="input_name.disabled" (click)="toggleEdit(input_name)">edit</mat-icon>
+                    <mat-icon class="btn-close" *ngIf="!input_name.disabled" (click)="toggleEdit(input_name, true)">close</mat-icon>
+                    <mat-icon class="btn-save" *ngIf="!input_name.disabled" (click)="save(input_name)">check</mat-icon>
+                </div>
+                <mat-error *ngIf="name.hasError('minlength') && name.touched">  
+                    Must have at least 3 letters
+                </mat-error>
+                <mat-error *ngIf="name.hasError('required') && name.touched">
+                    Name is required
+                </mat-error>
+            </div>
+            
+            <div class="div_input">
+                <label>Your username</label>
+                <div class="border">
+                    <input #input_username type="text" matInput [formControl]="username" autocomplete="off" name="username">
+                    <mat-icon class="btn-edit" *ngIf="input_username.disabled" (click)="toggleEdit(input_username)">edit</mat-icon>
+                    <mat-icon class="btn-close" *ngIf="!input_username.disabled" (click)="toggleEdit(input_username, true)">close</mat-icon>
+                    <mat-icon class="btn-save" *ngIf="!input_username.disabled" (click)="save(input_username)">check</mat-icon>
+                </div>
+                <mat-error *ngIf="username.hasError('minlength') && username.touched">
+                    Must have at least 3 letters
+                </mat-error>
+                <mat-error *ngIf="username.hasError('required') && username.touched">
+                    Username is required
+                </mat-error>
+                <mat-error *ngIf="username.hasError('not_available') && username.touched && username.value != user.username">
+                    Username is already in use
+                </mat-error>
+            </div>
+            
+            <div class="div_input">
+                <label>Your email</label>
+                <div class="border">
+                    <input #input_email type="email" matInput [formControl]="email" autocomplete="off" name="email">
+                    <mat-icon class="btn-edit" *ngIf="input_email.disabled" (click)="toggleEdit(input_email)">edit</mat-icon>
+                    <mat-icon class="btn-close" *ngIf="!input_email.disabled" (click)="toggleEdit(input_email, true)">close</mat-icon>
+                    <mat-icon class="btn-save" *ngIf="!input_email.disabled" (click)="save(input_email)">check</mat-icon>
+                </div>
+                <mat-error *ngIf="email.hasError('email') && email.touched">  
+                    Please enter a valid email address
+                </mat-error>
+                <mat-error *ngIf="email.hasError('not_available') && email.touched && email.value != user.email">
+                    Email is already in use
+                </mat-error>
+                <mat-error *ngIf="email.hasError('required') && email.touched">
+                    Email is required
+                </mat-error>
+                <mat-error *ngIf="email.hasError('not_valid') && email.touched">
+                    Please enter a valid email address
+                </mat-error>
+            </div>
+        </div>
+        <div class="change_password animate__animated animate__fadeInDown">
+            <button mat-raised-button *ngIf="!showChangePassword" (click)="toggleChangePassword()">Change password</button>
+            <p class="alert ok" *ngIf="okChangedPassword">Password updated successfully</p>
+
+            <form class="div_change_password" [formGroup]="formChangePassword" *ngIf="showChangePassword" (ngSubmit)="changePassword()">
+                <div class="text">
+                    <p>Change your password</p>
+                    <mat-spinner id="spinner-change_password" *ngIf="loadingChange"></mat-spinner>
+                </div>
+
+                <p class="alert error" *ngIf="errChangedPassword">The current password is incorrect</p>
+                <p class="alert error" *ngIf="requiredChangePassword">All fields are required</p>
+                <p class="alert error" *ngIf="minLength && !requiredChangePassword">The new password must have at least 8 letters</p>
+                <p class="alert error" *ngIf="dontMatch && !requiredChangePassword && !minLength">Confirm password don't match</p>
+                
+                <mat-form-field>
+                    <mat-label>Actual password</mat-label>
+                    <input matInput [type]="hide.one ? 'password' : 'text'" formControlName="actual">
+                    <button mat-icon-button matSuffix (click)="hide.one = !hide.one" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide.one ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>New password</mat-label>
+                    <input matInput [type]="hide.two ? 'password' : 'text'" formControlName="password">
+                    <button mat-icon-button matSuffix (click)="hide.two = !hide.two" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide.two ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+                </mat-form-field>
+                
+                <mat-form-field>
+                    <mat-label>Confirm new password</mat-label>
+                    <input matInput [type]="hide.three ? 'password' : 'text'" formControlName="password2">
+                    <button mat-icon-button matSuffix (click)="hide.three = !hide.three" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide"><mat-icon>{{hide.three ? 'visibility_off' : 'visibility'}}</mat-icon></button>
+                </mat-form-field>
+
+                <div class="btns">
+                    <button mat-raised-button (click)="toggleChangePassword(false)">Cancel</button>
+                    <button type="submit" mat-raised-button color="primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>
+</div>

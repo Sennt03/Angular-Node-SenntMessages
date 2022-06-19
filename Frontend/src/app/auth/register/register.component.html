@@ -1,0 +1,83 @@
+<div class="grid_auth grid_auth__register">
+    <div class="images animate__animated animate__fadeInLeft animate__fast">
+        <img class="logo logo__movil" src="assets/images/logo_movil.png" alt="Logo senntmessages">
+        <img class="logo logo__pc" src="assets/images/logo_pc.png" alt="Logo senntmessages">
+    </div>
+    <div class="auth auth__register animate__animated animate__fadeInRight animate__fast" id="auth__register">
+        <p class="text">Register</p>
+        <form class="form" [formGroup]="form" (ngSubmit)="register()">
+
+            <div class="input">
+                <label for="name">Name <mat-error *ngIf="required('name')">required*</mat-error></label>
+                <input type="name" id="name" formControlName="name" autocomplete="off">
+                <div *ngIf="haveErrors('name')" class="div-error">
+                    <mat-error *ngIf="hasError('name', 'minlength')">
+                        Must have at least 3 letters
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="input">
+                <label for="username">Username <mat-error *ngIf="required('username')">required*</mat-error></label>
+                <input type="username" id="username" formControlName="username" autocomplete="off">
+                <div *ngIf="haveErrors('username')" class="div-error">
+                    <mat-error *ngIf="hasError('username', 'minlength')">
+                        Must have at least 3 letters
+                    </mat-error>
+                    <mat-error *ngIf="hasError('username', 'not_available')">
+                        - Username is already in use
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="input">
+                <label for="email">Email <mat-error *ngIf="required('email')">required*</mat-error></label>
+                <input type="email" id="email" formControlName="email" autocomplete="off">
+                <div *ngIf="haveErrors('email')" class="div-error">
+                    <mat-error *ngIf="hasError('email', 'email')">
+                        Enter a valid email
+                    </mat-error>
+                    <mat-error *ngIf="hasError('email', 'not_available')">
+                        - Email is already in use
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="input">
+                <label for="password">Password <mat-error *ngIf="required('password')">required*</mat-error></label>
+                <input type="password" id="password" formControlName="password">
+                <div *ngIf="haveErrors('password')" class="div-error">
+                    <mat-error *ngIf="hasError('password', 'minlength')">
+                        Must have at least 8 letters
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="input">
+                <label for="password2">Confirm Password</label>
+                <input type="password" id="password2" formControlName="password2">
+                <div *ngIf="form.get('password2').touched && form.errors" class="div-error">
+                    <mat-error *ngIf="form.hasError('match_password')">
+                        Passwords don't match
+                    </mat-error>
+                </div>
+            </div>
+
+            <!-- <a class="btn-forgot" routerLink="/auth/reseat_password">Forget your password?</a> -->
+
+            <button class="btn-submit" type="submit">
+                <p>Register</p>
+                <mat-icon class="icon">arrow_forward</mat-icon>
+            </button>
+        </form>
+    </div>
+
+    <div class="link_auth animate__animated animate__fadeInLeft animate__fast">
+        <a routerLink="/auth/login">Already have an <br class="space_account"> account?<br>Login Here</a>
+    </div>
+    
+    <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()" [bottom]="true"></app-mini-alert>
+</div>
+
+
+

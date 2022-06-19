@@ -1,0 +1,30 @@
+.mini-alert{
+    align-items: center;
+    background-color: #303030;
+    color: #fff;
+    display: none;
+    justify-content: space-between;
+    padding: 8px 10px 8px 15px;
+    margin-right: 25px;
+    position: absolute;
+    left: 15px;
+    top: 15px;
+    width: fit-content;
+    z-index: 1000;
+}
+
+.mini-alert p{
+    margin-right: 5px !important;
+}
+
+.mini-alert mat-icon{
+    cursor: pointer;
+    transform: scale(0.8);
+}
+
+@media(min-width: 1024px){
+    .mini-alert{
+        bottom: 30px;
+        top: auto;
+    }
+}

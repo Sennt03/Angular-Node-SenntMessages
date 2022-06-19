@@ -1,0 +1,30 @@
+<div class="chats" *ngIf="chats; else loading">
+  
+  <p class="textNoFound" *ngIf="chats.length < 1; else chatsContainer">No chats found <br> Start one!</p>
+
+  <ng-template #chatsContainer>
+    <div routerLink="/chat/{{chat._id}}" routerLinkActive="active" class="chat" *ngFor="let chat of chats">
+      <img [src]="getUser(chat.users).image.url" [alt]="user.name">
+      <div class="chat__info">
+        <div class="user">
+          <p class="user__name">{{getUser(chat.users).name}}</p>
+          <p class="chat__info__time">{{chat.lastMessage?.createdAt || chat.updatedAt | createDate}}</p>
+        </div>
+        <div class="chat__div-message">
+          <div class="chat__info__message">
+            <mat-icon class="icon-done" *ngIf="chat.lastMessage?.from === user._id" [ngClass]="{'read': chat.lastMessage?.read}">done_all</mat-icon>
+            <mat-icon *ngIf="chat.lastMessage?.image">photo_camera</mat-icon>
+            <p *ngIf="!chat.lastMessage?.image">{{chat.lastMessage?.message || '~~'}}</p>
+            <p *ngIf="chat.lastMessage?.image">{{chat.lastMessage?.message.trim() || 'Photo'}}</p>
+          </div>
+          <p *ngIf="chat.noRead && chat.noRead > 0"><span [matBadge]="chat.noRead" matBadgeOverlap="false"></span></p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
+
+<ng-template #loading>
+  <mat-spinner class="spinner-chat" id="loading"></mat-spinner>
+</ng-template>

@@ -1,0 +1,28 @@
+<div class="users">
+
+    <div class="search">
+        <input type="text" [formControl]="inputSearch" id="inputSearch" placeholder="Search users by name and username" autocomplete="off" 
+        (focus)="search()" (blur)="search(false)">
+        <mat-icon class="search-icon">search</mat-icon>
+        <mat-spinner class="spinner-users" id="loading"></mat-spinner>
+        <mat-icon id="clean-search" (click)="cleanSearch()" *ngIf="inputSearch.value">close</mat-icon>
+    </div>
+    
+    <div *ngIf="users?.length > 0; else noFound">
+        <div class="user" *ngFor="let user of users" (click)="createChat(user._id, user.chatId)">
+            <img [src]="user.image.url" [alt]="user.name">
+            <div class="data">
+                <div class="data__text">
+                    <p class="name">{{ user.name }}</p>
+                    <p class="username">{{ user.username }}</p>
+                </div>
+                <mat-icon>comment</mat-icon>
+            </div>
+        </div>
+    </div>
+
+    <ng-template #noFound>
+        <p class="textNoFound">No users found.</p>
+    </ng-template>
+
+</div>

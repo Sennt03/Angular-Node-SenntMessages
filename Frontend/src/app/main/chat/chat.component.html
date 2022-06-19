@@ -1,0 +1,116 @@
+<div class="con">
+  <div class="container">
+    <header class="header">
+        <div class="me">
+            <mat-icon class="back" routerLink="/">arrow_back</mat-icon>
+            <div class="image_modal image_profile_user" (click)="viewPhoto('image_profile_user')">
+              <img [src]="chatUser?.image.url || imgDefault" alt="Foto de perfil de (usuario)">
+            </div>
+            <p>{{ chatUser?.name || '...' }}</p>
+        </div>
+        <div class="icons">
+            <mat-icon class="camera" (click)="call()">videocam</mat-icon>
+            <mat-icon class="phone" (click)="call()"> local_phone</mat-icon>
+            <div class="container-menu">
+                <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu"><mat-icon class="menu">more_vert</mat-icon></button>
+                <mat-menu #menu="matMenu" xPosition="before">
+                  <div class="item-menu">
+                    <div mat-menu-item>
+                      <span>Contact info</span>
+                    </div>
+                  </div>
+                  <div class="item-menu">
+                    <div mat-menu-item>
+                      <span>Clear messages</span>
+                    </div>
+                  </div>
+                  <div class="item-menu">
+                    <div mat-menu-item>
+                      <span>Delete chat</span>
+                    </div>
+                  </div>
+                  <div class="item-menu">
+                    <div mat-menu-item>
+                      <span>Block David</span>
+                    </div>
+                  </div>
+                </mat-menu>
+            </div>
+        </div>
+    </header>
+</div>
+
+<main id="main" *ngIf="messages; else loading">
+  <div *ngIf="messages.length > 0; else noMessages">
+    <div class="message">
+
+      <!-- <div class="message__him message__init row" *ngFor="let message of messages"> -->
+      <div *ngFor="let message of messages;let final = last" [ngClass]="{
+        'message__me': message.from == user._id,
+        'message__him': message.to == user._id,
+        'message__init': isInit(message),
+        'final_message': final
+      }" [id]="message._id">
+      <div class="image_modal image_{{message.image.public_id}}" (click)="viewPhoto('image_'+message.image.public_id)" *ngIf="message.image">
+        <img [src]="message.image.url" alt="Imagen">
+      </div>
+        <p appMessage class="text-message" *ngIf="message.message.trim().length > 0">{{ message.message }}</p>
+        <!-- .innerHTML.split('\n').length > 1 -->
+        <div class="info" [ngClass]="{'img': message.message.trim().length < 1 && message.image}">
+          <p>{{ message.createdAt | createHour }}</p>
+          <mat-icon class="icon-done" *ngIf="message.from == user._id"
+          [ngClass]="{'read': message.read}">done_all</mat-icon>
+        </div>
+      </div>
+      
+      <!-- <cdk-virtual-scroll-viewport itemSize="0">
+        <div *cdkVirtualFor="let message of messages;" [ngClass]="{
+          'message__me': message.from == user._id,
+          'message__him': message.to == user._id,
+          'message__init': isInit(message)
+        }">
+          <img [src]="message.image.url" alt="Imagen" *ngIf="message.image">
+          <p class="text-message" *ngIf="message.message.trim().length > 0">{{ message.message }}</p>
+          <div class="info" [ngClass]="{'img': message.message.trim().length < 1 && message.image}">
+            <p>18:30</p>
+            <mat-icon class="icon-done" *ngIf="message.from == user._id">done_all</mat-icon>
+          </div>
+        </div>
+      </cdk-virtual-scroll-viewport> -->
+
+      <!-- <div class="message__him">
+        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, iure?</p>
+        <div class="info">
+          <p>18:30</p>  
+        </div>
+      </div>
+      <div class="message__me message__init">
+        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, ea maiores in suscipit reiciendis sit repudiandae possimus? Voluptates culpa enim minus quam tenetur nulla ipsam. Neque tenetur at voluptatibus magnam.</p>
+        <div class="info">
+          <p>18:30</p>  
+          <mat-icon class="icon-done">done_all</mat-icon>
+        </div>
+      </div>
+      <div class="message__me">
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit neque doloribus voluptas rerum! Mollitia hic quia doloribus eius! Cupiditate, tempora.</p>
+        <div class="info">
+          <p>18:30</p>  
+          <mat-icon class="icon-done">done_all</mat-icon>
+        </div>
+      </div> -->
+    </div>
+  </div>
+  <ng-template #noMessages>
+    <p class="noMessages">You have no messages in this chat.</p>
+  </ng-template>
+</main>
+<app-input (sendMessage)="sendMessage($event)"
+(sendAlert)="sendAlert($event)"></app-input>
+
+<app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>
+
+</div>
+
+<ng-template #loading>
+  <mat-spinner class="spinner-chat" id="loading"></mat-spinner>
+</ng-template>

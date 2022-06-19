@@ -1,0 +1,7 @@
+<!-- Es un componente para enviar una alerta abajo a la izquierda a arriba dependiendo el parametro 
+Esta muestra el contenido recibido por parametro y un boton para cerrar la alerta (por defecto desaparece a los
+5 segundos) -->
+<div class="mini-alert" #minialert>
+    <p #p>{{ content }}</p>
+    <mat-icon (click)="close()">clear</mat-icon>
+</div>

@@ -1,0 +1,46 @@
+<div class="grid_auth">
+    <div class="images animate__animated animate__fadeInRight animate__fast">
+        <img class="logo logo__movil" src="assets/images/logo_movil.png" alt="Logo senntmessages">
+        <img class="logo logo__pc" src="assets/images/logo_pc.png" alt="Logo senntmessages">
+    </div>
+    <div class="auth auth__login animate__animated animate__fadeInLeft animate__fast">
+        <p class="text">Login</p>
+        <form class="form" [formGroup]="form" (ngSubmit)="login()">
+
+            <div class="input">
+                <label for="email">Email <mat-error *ngIf="required('email')">required*</mat-error></label>
+                <input type="email" id="email" formControlName="email" autocomplete="off">
+
+                <div *ngIf="haveErrors('email')" class="div-error">
+                    <mat-error *ngIf="hasError('email', 'email')">
+                        Enter a valid email
+                    </mat-error>
+                </div>
+            </div>
+
+            <div class="input">
+                <label for="password">Password <mat-error *ngIf="required('password')">required*</mat-error></label>
+                <input type="password" id="password" formControlName="password" autocomplete="off">
+
+                <div *ngIf="haveErrors('password')" class="div-error">
+                    <mat-error *ngIf="hasError('password', 'minlength')">
+                        Must have at least 8 letters
+                    </mat-error>
+                </div>
+            </div>
+
+            <a class="btn-forgot" routerLink="/auth/reseat_password">Forget your password?</a>
+
+            <button class="btn-submit">
+                <p>Login</p>
+                <mat-icon class="icon">arrow_forward</mat-icon>
+            </button>
+        </form>
+    </div>
+
+    <div class="link_auth animate__animated animate__fadeInRight animate__fast">
+        <a routerLink="/auth/register">Don't have an <br class="space_account"> account?<br>Register Here</a>
+    </div>
+    
+    <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()" [bottom]="true"></app-mini-alert>
+</div>

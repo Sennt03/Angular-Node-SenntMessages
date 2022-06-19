@@ -1,0 +1,62 @@
+<div class="container">
+  <div class="chats-container" id="chats-container">
+    <header class="header">
+      <div class="header__top">
+        <div class="me">
+          <img [src]="user.image.url" [alt]="user.name">
+          <p>{{user.name}}</p>
+        </div>
+        <div class="div-menu">
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu"><mat-icon class="icon-menu">more_vert</mat-icon></button>
+          <mat-menu #menu="matMenu" xPosition="before" class="main-menu">
+            <div class="item-menu">
+              <div mat-menu-item (click)="openProfile()">
+                <mat-icon class="mr-icon">person_pin</mat-icon>
+                <span>Profile</span>
+              </div>
+            </div>
+            <div class="item-menu">
+              <span (click)="logout()" mat-menu-item>
+                <mat-icon class="mr-icon">exit_to_app</mat-icon>
+                <span>Logout</span>
+              </span>
+            </div>
+          </mat-menu>
+        </div>
+      </div>
+    
+      <div class="header__bottom">
+        <mat-tab-group class="tabs" mat-stretch-tabs color="primary" backgroundColor="primary">
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <img src="assets/images/chat-icon.png" alt="messages icon">
+              Chats
+            </ng-template>
+            
+            <div class="app-chats">
+              <app-chats [updateChats]="eventUpdateChats"></app-chats>
+            </div>
+  
+          </mat-tab>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <img src="assets/images/users-icon.png" alt="users icon">
+              Users
+            </ng-template>
+  
+            <div class="app-chats">
+              <app-users (chatsUpdated)="updateChats()"></app-users>
+            </div>
+  
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </header>
+
+    <app-profile id="div_profile" class="app-profile animate__animated animate__slideInLeft animate__faster"></app-profile>
+  </div>
+  
+  <div class="chat-container">
+    <router-outlet></router-outlet>
+  </div>
+</div>

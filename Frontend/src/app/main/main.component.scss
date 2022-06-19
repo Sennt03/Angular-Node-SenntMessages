@@ -1,0 +1,134 @@
+@import '../../vars';
+
+// Para manipular el vh uso esta variable y no de sass
+:root {
+    --app-height: 100%;
+}
+
+.app-profile.animate__faster {
+    --animate-duration: 0.7s;
+}
+
+.chats-container{
+    border-right: 1px solid #c3cbcf;
+    height: 100%;
+}
+
+.chat-container{
+    max-width: calc(100vw - 410px);
+}
+
+.header{
+    &__top{
+        align-items: center;
+        background: $primary;
+        color: #fff;
+        display: grid;
+        grid-template-columns: 1fr 40px;
+        padding: 10px 20px 0;
+    }
+
+    .me{
+        display: flex;
+        align-items: center;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+
+        p{
+            cursor: default;
+            font-size: 21px;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }    
+
+        img{
+            border-radius: 50px;
+            height: 40px;
+            width: 40px;
+            object-fit: cover;
+            margin-right: 12px;
+        }
+    }
+
+    .icon-menu{
+        transform: scale(1.5);
+    }
+
+    &__bottom{
+        img{
+            margin-right: 10px;
+        }
+    }
+
+}
+
+.item-menu{
+    background: #fff;
+    border-radius: 50px;
+    box-shadow: 0px 1px 1px #ccc;
+    color: #Fff;
+    margin-top: 10px;
+
+    span, i{
+        color: #757575;
+    }
+
+    i{
+        display: inline-block;
+        margin: 0 15px 0 5px;
+        transform: scale(1.8);
+    }
+}
+
+.chats-container{
+    position: relative;
+    z-index: 20;
+    visibility: hidden;
+}
+
+.mr-icon{
+    margin-right: 7px !important;
+}
+
+.app-chats{
+    max-height: 100%;
+    overflow-y: auto;
+    height: calc(var(--app-height) - 98px);
+
+    &::-webkit-scrollbar{
+        width: 3px;
+    }
+    
+    &::-webkit-scrollbar-thumb{
+        background: lighten($color: $primary, $amount: 15);
+    }
+}
+
+@media(min-width: 1024px){
+    .header .me img{
+        display: block;
+    }
+
+    .container{
+        display: grid;
+        grid-template-columns: 410px 1fr;
+    }
+
+    .chats-container{
+        display: block;
+        visibility: visible;
+    }
+
+    .app-chats{
+        height: calc(100vh - 98px);
+    }
+
+    
+}
+
+@media(min-width: 1651px){
+    .chats-container{
+        border: 1px solid #f1f1f1;
+    }
+}
