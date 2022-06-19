@@ -32,7 +32,7 @@ export function messagesReducer(state: LsMessagesFromChat[] = [], action: messag
             const chatIndex = state.findIndex(chat => chat.chatId == action.payload.chatId)
 
             const newMessages = []
-            chat.messages.forEach((message, index) => {
+            chat?.messages.forEach((message, index) => {
                 const newMessage = {...message, read: true}
                 newMessages.push(newMessage)
             });
