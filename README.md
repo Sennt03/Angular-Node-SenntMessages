@@ -1,6 +1,6 @@
 # SenntMessages
 App de mensajeria en tiempo real con socket.io
-LINK: https://senntmessages.herokuapp.com/
+LINK: https://sennt03.github.io/Senntmessages/
 
 ## Detalles
 * La aplicacion esta modularizada
