@@ -3,11 +3,11 @@ App de mensajeria en tiempo real con socket.io
 LINK: https://sennt03.github.io/Senntmessages/
 
 ## Detalles
-* La aplicacion esta modularizada
+* La aplicación esta modularizada
 * Incluye lazy loading y estrategia de precarga
 * Tiene el interceptor de token
 * Tipado en propiedades y en las peticiones http
-* Las imagenes se suben a uns ervidor de cloudinary y al cambiar de foto o removerla tambien se eliminan de ese servidor
+* Las imagenes se suben a un servidor de cloudinary y al cambiar de foto o removerla tambien se eliminan de ese servidor
 
 ## Funcionalidades
 ### Auth
@@ -15,7 +15,6 @@ Es un auth normal pero con inputs reactivos, en el formulario de registro valida
 
 * Logeo y Registro con formularios reactivos de Angular (ReactiveFormsModule)
 * Uso de validaciones por defecto, validaciones asincronas, grupales y personalizadas
-* 
 
 ## Profile
 En los inputs para editar tus datos como el name tambien son reactivos (FormControl) igual con validaciones asiconcronas
@@ -25,7 +24,7 @@ En los inputs para editar tus datos como el name tambien son reactivos (FormCont
 * Cambio de contraseña
 
 # Main
-El foco de la aplicacion es para creacion de chats con cualquier usuario, enviar y recibir mensajes e imagenes.
+El foco de la aplicacion es para creación de chats con cualquier usuario, enviar y recibir mensajes e imagenes.
 
 * Busqueda de usuarios por name y username
 * Creacion de chats
