@@ -9,7 +9,8 @@ import { InputComponent } from './components/input/input.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 
-
+// EMOJIS
+import { PickerModule } from '@ctrl/ngx-emoji-mart';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     MaterialModule,
     SharedModule,
     ReactiveFormsModule,
-    ScrollingModule
+    ScrollingModule,
+    PickerModule
   ]
 })
 export class ChatModule { }

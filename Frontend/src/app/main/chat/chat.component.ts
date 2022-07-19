@@ -197,6 +197,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   listenReadMessages(){
     this.subReadMessages = this.socketService.listen(environment.events.READ_MESSAGES).subscribe(res => {
+      this.store.dispatch(new ReadChangeChatAction({chatId: res.chatId})) 
       if(res.chatId == this.chatId){
         this.store.dispatch(new ReadMessagesAction({chatId: this.chatId}))
       }

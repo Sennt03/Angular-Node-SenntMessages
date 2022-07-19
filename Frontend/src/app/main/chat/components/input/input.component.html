@@ -6,8 +6,15 @@
         <mat-spinner></mat-spinner>
     </ng-template>
 </div>
+
+<!-- Emojis -->
+<div class="emojis" *ngIf="emojisToggle">
+    <emoji-mart set="twitter" [exclude]="['flags']" (emojiClick)="addEmoji($event)"></emoji-mart>
+</div>
+
 <div class="input-container" id="input-container">
     <div class="input">
+        <i class="far fa-grin-alt emojis_icon" (click)="openEmojis()"></i>
         <textarea rows="1" style="height:1em;" id="input" placeholder="Type a message" [formControl]="input"></textarea>
         <i class="far fa-image" (click)="inputFile.click()"></i>
     </div>

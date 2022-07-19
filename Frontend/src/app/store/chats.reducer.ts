@@ -35,8 +35,13 @@ export function chatsReducer(state: LsChat[] = chatsDefault, action: chatsAction
             const chats3 = [...state]
             const chat = chats3.find(chat => chat._id == action.payload.chatId)
             const chatIndex = chats3.findIndex(chat => chat._id == action.payload.chatId)
+            console.log(chats3)
+            console.log(chat)
 
-            const newChat = {...chat, noRead: 0}
+            const newChat = {...chat, noRead: 0, lastMessage: { ...chat?.lastMessage, read: true }}
+            // if(newChat?.lastMessage){
+                
+            // }
             chats3[chatIndex] = newChat
 
             return chats3

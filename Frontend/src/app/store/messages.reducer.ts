@@ -37,7 +37,7 @@ export function messagesReducer(state: LsMessagesFromChat[] = [], action: messag
                 newMessages.push(newMessage)
             });
             const newChat = {
-                chatId: chat.chatId,
+                chatId: chat?.chatId,
                 messages: [...newMessages]
             }
 

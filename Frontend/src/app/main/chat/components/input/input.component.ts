@@ -16,6 +16,7 @@ export class InputComponent implements OnInit {
   haveImage: boolean = false
   imageFile: File
   image
+  emojisToggle = false
 
   constructor(private deviceService: DeviceDetectorService) { }
 
@@ -148,6 +149,17 @@ export class InputComponent implements OnInit {
     this.imageFile = null
     this.image = null
     this.showImageDiv = false
+  }
+
+  // EMOJIS
+  addEmoji(e){
+    const value = this.input.value
+    const newValue = value + e.emoji.native
+    this.input.patchValue(newValue)
+  }
+
+  openEmojis(){
+    this.emojisToggle = !this.emojisToggle
   }
 
 }
