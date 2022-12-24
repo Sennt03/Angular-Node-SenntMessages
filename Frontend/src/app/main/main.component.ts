@@ -8,10 +8,12 @@ import { environment } from 'src/environments/environment';
 import { userDefault } from '../store/user.reducer';
 import { Store } from '@ngrx/store';
 import { AppState } from '../app.state';
-import { AddMessageAction } from '../store/messages.actions';
-import { ChangeLastMessageAction, SaveChatsAction } from '../store/chats.actions';
+import { AddMessageAction, DeleteMessagesAction } from '../store/messages.actions';
+import { ChangeLastMessageAction, ReadChangeChatAction, SaveChatsAction } from '../store/chats.actions';
 import { LsMessage } from '@models/message.model';
 import { ChatService } from '@services/chat.service';
+import { sendAlert } from '@shared/utils/alerts';
+import { LsEventOpenAlert } from '@models/alerts.models';
 
 
 @Component({
@@ -21,9 +23,16 @@ import { ChatService } from '@services/chat.service';
 })
 export class MainComponent implements OnInit, OnDestroy {
 
+  eventOpenAlert = new Subject<LsEventOpenAlert>();
   eventUpdateChats = new Subject<any>();
+  eventUpdateProfileUser = new Subject<any>();
+  eventUpdateUsers = new Subject<any>();
   subUrl: Subscription
   user: LsUser
+
+  subDeleteMessage: Subscription
+  subReadMessages: Subscription
+  subDeleteSchedule: Subscription
 
   constructor(
     private authService: AuthService,
@@ -46,10 +55,25 @@ export class MainComponent implements OnInit, OnDestroy {
       this.resize(event.url)
     });
     this.listenMessages()
+    this.listenSchedules()
+    this.eventUpdateChats.next(true)
+    this.eventUpdateProfileUser.next(true)
+    this.eventUpdateUsers.next(true)    
   }
 
   ngOnDestroy(): void {
     this.subUrl.unsubscribe()
+    this.subDeleteMessage.unsubscribe()
+    this.subReadMessages.unsubscribe()
+    this.subDeleteSchedule.unsubscribe()
+  }
+
+  listenSchedules(){
+    this.subDeleteSchedule = this.socketService.listen(environment.events.SCHEDULE_DELETEMESSAGE).subscribe(res => {
+      if(res?.send){
+        sendAlert(this.eventOpenAlert, 'A scheduled message has just been sent sent')
+      }
+    })
   }
 
   appHeight(){
@@ -59,7 +83,7 @@ export class MainComponent implements OnInit, OnDestroy {
 
   resize(url){
     url = url.split('/')[1]
-    if(url !== 'chat'){
+    if(url !== 'chat' && url !== 'message'){
       document.getElementById('chats-container').style.visibility = 'visible'
     }
   }
@@ -73,12 +97,25 @@ export class MainComponent implements OnInit, OnDestroy {
     div_profile.style.display = 'block'
   }
 
+  openSettings(){
+    const div_settings = document.getElementById('div_settings')
+    div_settings.style.display = 'block'
+  }
+
   updateChats(){
     this.eventUpdateChats.next(true)
   }
 
+  eventUpdateProfile(){
+    this.eventUpdateProfileUser.next(true)
+  }
+
+  updateUsers(){
+    this.eventUpdateUsers.next(true)
+  }
+
   updateNoRead(message: LsMessage){
-    if(!message.read){
+    if(!message.read && message.to == this.user._id){
       let chats: any[]
       this.store.select('chats').forEach(chatsStore => chats = chatsStore)
       let newChats = chats.filter(chat => chat._id != message.chatId)
@@ -110,6 +147,26 @@ export class MainComponent implements OnInit, OnDestroy {
       }else{
         this.updateChats()
       }
+    })
+
+    // Message Deleted
+    this.subDeleteMessage = this.socketService.listen(environment.events.MESSAGE_DELETED).subscribe(messageDeleted => {
+      this.store.dispatch(new DeleteMessagesAction({messageId: messageDeleted._id, chatId: messageDeleted.chatId}))
+      let messages
+      this.store.select('messages').forEach(chats => {
+        chats.forEach(chat => {
+          if(chat.chatId == messageDeleted.chatId){
+            messages = chat.messages
+            return
+          }
+        });
+      })
+        this.updateChats()
+    })
+
+    // READ MESSAGE
+    this.subReadMessages = this.socketService.listen(environment.events.READ_MESSAGES).subscribe(res => {
+      this.store.dispatch(new ReadChangeChatAction({chatId: res.chatId}))   
     })
   }
   

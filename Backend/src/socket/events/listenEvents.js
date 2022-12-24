@@ -5,7 +5,7 @@ module.exports = {
     connectClient(client, io){
         const user = createUser(client)
         Users.addUser(user)
-        client.emit('connected', `Conectado ${client.id}`)
+        client.emit('connected', `${client.id}`)
     },
 
     disconnectClient(client, io){

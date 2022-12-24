@@ -25,10 +25,20 @@ export class SocketService extends Socket{
       }
     })
     this.socket = this.ioSocket
+    this.getSocketId()
   }
 
   registerUser(userSocket){
     console.log('Tu socket:', userSocket)
+  }
+
+  getSocketId(){
+    this.listen('connected').subscribe(res => {
+      localStorage.setItem('socketId', res)
+    })
+    this.listen('disconnect').subscribe(res => {
+      localStorage.removeItem('socketId')
+    })
   }
 
   listen(event){

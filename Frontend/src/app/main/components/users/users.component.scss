@@ -31,6 +31,7 @@
 
                 .name{
                     font-size: 18px;
+                    color: #000;
                 }
                 
                 .username{
@@ -80,13 +81,13 @@
             position: absolute;
             // left: 22px;
             left: 5.2%;
-            top: 16px;
+            top: 19px;
             color: #919191;
         }
 
         #clean-search{
-            width: 15px !important;
-            height: 15px !important;
+            width: 20px !important;
+            height: 20px !important;
             color: #919191;
             cursor: pointer;
             position: absolute;

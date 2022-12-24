@@ -85,7 +85,7 @@
     overflow-y: auto;
 
     height: calc(var(--app-height) - 118px);
-    padding-bottom: 0px;
+    padding-bottom: 12px;
     position: relative;
 
     &::-webkit-scrollbar{
@@ -96,21 +96,35 @@
         background: lighten($color: $primary, $amount: 15);
     }
 
-    .noMessages{
-        background: $primary;
-        border-radius: 10px;
-        color: #fff;
-        padding: 7px 10px;
-        text-align: center;
-        width: fit-content;
-        position: absolute;
-        bottom: 12px;
-        left: 50%;
-        transform: translateX(-50%);
-    }
 }
 
 // MESSAGES
+.noMessages{
+    background: $primary;
+    border-radius: 10px;
+    color: #fff;
+    padding: 7px 10px;
+    text-align: center;
+    width: fit-content;
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.alertMessage{
+    background: $primary;
+    border-radius: 10px;
+    color: #fff;
+    padding: 7px 10px;
+    text-align: center;
+    width: fit-content;
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
 .message{
     display: flex;
     flex-direction: column;
@@ -201,6 +215,34 @@
             margin-left: 4px !important;
             margin-top: 2px !important;
         }
+
+        .options{
+            position: absolute;
+            padding-left: 5px;
+            top: 0;
+            right: 0;
+            border-radius: 10px 0 5px 10px;
+            /* height: 10px; */
+            // background: radial-gradient(at top right,rgba(255, 245, 193, 1) 60%,rgba(255, 245, 193, 0) 80%);
+            background: #ffffff80;
+            color: #808080;
+    
+            mat-icon{
+                cursor: pointer;
+                width: 0;
+                transition: 0.2s ease;
+            }
+
+            &.options_image{
+                border-radius: 10px 0 5px 10px;
+                background: #ffffff80;
+                color: #383737;
+            }
+        }
+
+        &:hover .options mat-icon{
+            width: 27px;
+        }
     }
 
     &__me{
@@ -221,6 +263,33 @@
                 transform: rotate(90deg);
             }
         }
+
+        .options{
+            position: absolute;
+            padding-left: 5px;
+            top: 0;
+            right: 0;
+            border-radius: 10px 0 5px 10px;
+            /* height: 10px; */
+            background: radial-gradient(at top right,rgba(255, 245, 193, 1) 60%,rgba(255, 245, 193, 0) 80%);
+            color: #808080;
+    
+            mat-icon{
+                cursor: pointer;
+                width: 0;
+                transition: 0.2s ease;
+            }
+
+            &.options_image{
+                background: #fff5c1b0;
+                border-radius: 10px 0 5px 40px;
+                color: #505050;
+            }
+        }
+    
+        &:hover .options mat-icon{
+            width: 27px;
+        }
     }
 
     .icon-done{
@@ -228,7 +297,7 @@
         color: #a9a179;
 
         &.read{
-            color: darken($color: $primary, $amount: 15);
+            color: darken($color: #44BCFF, $amount: 15);
         }
         
         p{
@@ -239,11 +308,16 @@
     img{
         border-radius: 5px;
         object-fit: cover;
-        max-width: 100%;
-        max-height: 300px;
         display: block;
         margin-bottom: 4px;
         background: #ffffffde;
+        object-fit: cover;
+        min-width: 275px;
+        min-height: 275px;
+        max-height: 375px;
+        max-width: 100%;
+        width: auto;
+        height: auto;
     }
 
     .text-message{
@@ -253,26 +327,90 @@
         overflow-wrap: break-word;
         white-space: pre-wrap;
         max-width: 100%;
+        color: #000;
+
+    }
+
+}
+
+.doc{
+    color: #000;
+    background: #e3daab;
+    border-radius: 1px;
+    cursor: pointer;
+
+    .icon{
+        width: 220px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 25px 30px;
+
+        .file{
+            color: #60aaf6;
+            display: flex;
+            align-items: center;
+            margin-right: 10px;
+            
+            i{
+                transform: scale(3);
+            }
+
+            p{
+                color: #0a0a0a;
+                padding-left: 19px;
+                font-size: 20px;
+                font-weight: normal;
+            }
+        }
+
+        .download{
+            border: 1px solid #588583;
+            width: 24px;
+            transform: scale(1.3);
+            height: 24px;
+            text-align: center;
+            border-radius: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #588583;
+        }
+    }
+
+    .data{
+        display: flex;
+        float: left;
+        font-size: 12px;
+        color: #446678;
+        padding: 2.5px 0 0 3px;
+
+        .space{
+            margin: 0 5px !important;
+        }
     }
 }
 
-@media(min-width: 1024px){
-    :host{
-        position: static;
-    }
+.audio_reproductor{
+    margin: 5px 3px 0 3px;
+    max-width: 300px;
 
-    #main{
-        padding: 0 15px;
-    }
-
-    .header .me .back{
-        display: none;
+    .data{
+        float: left;
+        padding-left: 12px;
+        color: #446678;
+        font-size: 13px;
+        position: relative;
+        top: -1px;
     }
 }
 
-@media(min-width: 1200px){
-    #main{
-        padding: 0 30px;
+.location{
+    img{
+        width: 250px;
+        min-width: unset;
+        height: 170px;
+        min-height: unset;
     }
 }
 
@@ -299,6 +437,10 @@
     height: unset !important;
     border-radius: 0 !important;
     z-index: 1;
+    object-fit: contain;
+    min-width: unset;
+    min-height: unset;
+    object-fit: contain;
 }
 
 .image_modal.active::after{
@@ -310,4 +452,28 @@
     left: 0;
     background-color: rgba(0,0,0,0.7);
     z-index: 0;
+}
+
+@media(min-width: 600px){
+    .doc{
+        .icon{
+            width: 345px;
+        }
+    }
+}
+
+@media(min-width: 1024px){
+    :host{
+        position: static;
+    }
+
+    #main{
+        padding: 10px 15px;
+    }
+}
+
+@media(min-width: 1200px){
+    #main{
+        padding: 10px 30px;
+    }
 }

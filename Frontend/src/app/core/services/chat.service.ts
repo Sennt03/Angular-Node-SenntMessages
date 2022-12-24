@@ -37,6 +37,21 @@ export class ChatService {
     .pipe(catchError(err => { return this.handleError(err) }))
   }
 
+  getChatInfo(chatId): Observable<LsChat>{
+    return this.http.get<LsChat>(`${this.url}/${chatId}`)
+    .pipe(catchError(err => { return this.handleError(err) }))
+  }
+
+  blockChat(chatId): Observable<LsChat>{
+    return this.http.get<LsChat>(`${this.url}/block/${chatId}`)
+    .pipe(catchError(err => { return this.handleError(err) }))
+  }
+
+  unlockChat(chatId): Observable<LsChat>{
+    return this.http.get<LsChat>(`${this.url}/unlock/${chatId}`)
+    .pipe(catchError(err => { return this.handleError(err) }))
+  }
+
   getFromUser(chatId: string): Observable<LsUser>{
     return this.http.get<LsUser>(`${this.url}/getFromUser/${chatId}`)
     .pipe(catchError(err => { return this.handleError(err) }))

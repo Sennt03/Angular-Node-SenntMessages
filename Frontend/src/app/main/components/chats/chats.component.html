@@ -14,8 +14,14 @@
           <div class="chat__info__message">
             <mat-icon class="icon-done" *ngIf="chat.lastMessage?.from === user._id" [ngClass]="{'read': chat.lastMessage?.read}">done_all</mat-icon>
             <mat-icon *ngIf="chat.lastMessage?.image">photo_camera</mat-icon>
+            <mat-icon *ngIf="chat.lastMessage?.doc && chat?.lastMessage?.doc?.mimetype.split('/')[0] != 'audio'">insert_drive_file</mat-icon>
+            <mat-icon *ngIf="chat.lastMessage?.doc && chat?.lastMessage?.doc?.mimetype.split('/')[0] == 'audio'">keyboard_voice</mat-icon>
+            <mat-icon *ngIf="chat.lastMessage?.location">location_on</mat-icon>
             <p *ngIf="!chat.lastMessage?.image">{{chat.lastMessage?.message || '~~'}}</p>
             <p *ngIf="chat.lastMessage?.image">{{chat.lastMessage?.message.trim() || 'Photo'}}</p>
+            <p *ngIf="chat.lastMessage?.doc && chat.lastMessage?.doc?.mimetype.split('/')[0] != 'audio'">{{chat.lastMessage?.doc.name || 'Document'}}</p>
+            <p *ngIf="chat.lastMessage?.doc && chat.lastMessage?.doc?.mimetype.split('/')[0] == 'audio'">{{chat.lastMessage?.doc?.time || 'Audio'}}</p>
+            <p *ngIf="chat.lastMessage?.location">Location</p>
           </div>
           <p *ngIf="chat.noRead && chat.noRead > 0"><span [matBadge]="chat.noRead" matBadgeOverlap="false"></span></p>
         </div>

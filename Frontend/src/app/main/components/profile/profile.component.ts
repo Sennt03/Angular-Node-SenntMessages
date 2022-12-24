@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LsUser } from 'src/app/core/models/user.model';
 import { AuthService } from '@services/auth.service';
 import { UserService } from '@services/user.service';
 import { MyValidators } from '@shared/utils/myValidators';
 import { sendAlert } from '@shared/utils/alerts';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { LsEventOpenAlert } from '@models/alerts.models';
 import { Store } from '@ngrx/store';
 import { AppState } from 'src/app/app.state';
@@ -18,6 +18,7 @@ import { AppState } from 'src/app/app.state';
 })
 export class ProfileComponent implements OnInit {
 
+  @Input('updateProfile') update: Observable<any>
   eventOpenAlert = new Subject<LsEventOpenAlert>();
 
   disabled = false
@@ -44,6 +45,13 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select('user').subscribe(user => this.user = user)
+    this.update.subscribe(res => {
+      this.load()
+    })
+    this.load()
+  }
+
+  load(){
     this.loadUser()
     this.createChangePassword()
   }

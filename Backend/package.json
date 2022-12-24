@@ -18,10 +18,12 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
+    "free-translate": "^0.6.1",
     "fs-extra": "^10.0.0",
     "joi": "^17.4.2",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.0.10",
+    "peer": "^0.6.1",
     "socket.io": "^4.3.0"
   },
   "devDependencies": {

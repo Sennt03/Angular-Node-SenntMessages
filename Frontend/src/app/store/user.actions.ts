@@ -2,6 +2,7 @@ import { LsUser } from '@models/user.model'
 import { Action } from '@ngrx/store'
 
 export const SAVEUSER = '[User] SAVEUSER'
+export const LOGOUTUSER = '[User] LOGOUTUSER'
 
 export class SaveUserAction implements Action{
     readonly type = SAVEUSER
@@ -9,4 +10,8 @@ export class SaveUserAction implements Action{
     constructor(public payload: LsUser){}
 }
 
-export type actions = SaveUserAction
+export class LogoutUserAction implements Action{
+    readonly type = LOGOUTUSER
+}
+
+export type actions = SaveUserAction | LogoutUserAction

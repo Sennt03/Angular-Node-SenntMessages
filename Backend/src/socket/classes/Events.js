@@ -12,6 +12,17 @@ class Events{
         }
     }
 
+    emitMe(event, socketId, userId, payload){
+        const usersSocket = Users.findById(userId)
+        const to = usersSocket.filter(user => user.socketId != socketId)
+        if(to && to.length > 0){
+            to.forEach(userSocket => {
+                // console.log(userSocket)
+                socket.io.to(userSocket.socketId).emit(event, payload)
+            });
+        }
+    }
+
 }
 
 const events = new Events()

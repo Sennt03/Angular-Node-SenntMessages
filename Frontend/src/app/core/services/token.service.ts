@@ -23,7 +23,8 @@ export class TokenInterceptor implements HttpInterceptor {
     if(token){
       request = request.clone({
         setHeaders: {
-          authorization: `Bearer ${token}`
+          authorization: `Bearer ${token}`,
+          socketid: localStorage.getItem('socketId') || ''
         }
       })
       return request

@@ -29,7 +29,7 @@ async function login({ email, password }){
     }
 
     const sendUser = createSendUser(user)
-    const token = jwt.sign(sendUser, config.jwtSecret, { expiresIn: '2h' })    
+    const token = jwt.sign(sendUser, config.jwtSecret, { expiresIn: '6h' })    
     
     return { user: sendUser, token }
 }

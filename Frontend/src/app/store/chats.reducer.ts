@@ -12,6 +12,39 @@ export function chatsReducer(state: LsChat[] = chatsDefault, action: chatsAction
             return chats
             break;
         
+        case chatsActions.UPDATECHAT:
+            const chatsUpdate = [...state]
+            const chatIdUpdate = action.payload.chatId
+            const messagesUpdated = action.payload.messages
+            state.forEach((chat, index) => {
+                if(chat._id == chatIdUpdate){
+                    const lastMessage = messagesUpdated[messagesUpdated.length - 1]
+                    const noReadMessages = messagesUpdated.filter(message => !message?.read && message.to == action.payload.myUserId)
+                    console.log(noReadMessages)
+                    const noRead = noReadMessages.length
+                    chatsUpdate[index] = { ...chatsUpdate[index], lastMessage, noRead }
+                    return
+                }
+            })
+            return chatsUpdate
+            break;
+
+        case chatsActions.UPDATEBLOCKCHAT:
+            const chatsUpdateBlock = [...state]
+            const chatIdUpdateBlock = action.payload.chatId
+            let blocked = {}
+            if(action.payload.block){
+                blocked = action.payload.block
+            }
+            state.forEach((chat, index) => {
+                if(chat._id == chatIdUpdateBlock){
+                    chatsUpdateBlock[index] = { ...chatsUpdateBlock[index], blocked }
+                    return
+                }
+            })
+            return chatsUpdateBlock
+            break;
+        
         case chatsActions.CHANGELASTMESSAGE:
             const chats2 = [...state]
             const payload = action.payload
@@ -35,13 +68,14 @@ export function chatsReducer(state: LsChat[] = chatsDefault, action: chatsAction
             const chats3 = [...state]
             const chat = chats3.find(chat => chat._id == action.payload.chatId)
             const chatIndex = chats3.findIndex(chat => chat._id == action.payload.chatId)
-            console.log(chats3)
-            console.log(chat)
-
-            const newChat = {...chat, noRead: 0, lastMessage: { ...chat?.lastMessage, read: true }}
-            // if(newChat?.lastMessage){
-                
-            // }
+            let newChat = {...chat}
+            if(action.payload?.userId){
+                if(chat?.lastMessage?.to == action.payload?.userId){
+                    newChat = {...chat, noRead: 0, lastMessage: { ...chat?.lastMessage, read: true }}
+                }
+            }else{
+                newChat = {...chat, noRead: 0, lastMessage: { ...chat?.lastMessage, read: true }}
+            }
             chats3[chatIndex] = newChat
 
             return chats3

@@ -6,6 +6,10 @@ export function userReducer(state: LsUser = userDefault, action: userActions.act
         case userActions.SAVEUSER:
             return action.payload
             break;
+        
+        case userActions.LOGOUTUSER:
+            return userDefault
+            break;
     
         default:
             return state

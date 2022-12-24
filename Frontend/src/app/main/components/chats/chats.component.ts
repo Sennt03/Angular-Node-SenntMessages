@@ -24,12 +24,16 @@ export class ChatsComponent implements OnInit {
     private authService: AuthService,
     private chatService: ChatService,
     private store: Store<AppState>
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     // Por que no lo necesito actualizado y el id nunca cambiara solo lo asigno de una vez
     this.user = this.authService.getMyUser()
-    this.updateChats.subscribe(res => this.getChats())
+    this.updateChats.subscribe(res => {
+      this.user = this.authService.getMyUser()
+      this.getChats()
+    })
     this.getChats()
     this.subcribeChats()
   }

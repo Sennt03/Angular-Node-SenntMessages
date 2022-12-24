@@ -10,6 +10,17 @@ export interface LsMessage{
         url: string,
         public_id: string
     },
+    doc?: {
+        name: string,
+        size: string,
+        url: string,
+        mimetype: string,
+        time?: string
+    },
+    location?: {
+        latitud: number,
+        longitud: number
+    }
     read?: Boolean
     createdAt: Date,
     updatedAt: Date,
@@ -19,7 +30,8 @@ export interface LsMessage{
 export interface LsSendMessage{
     chatId: string,
     message: string
-    file?: File
+    file?: File,
+    isLocation?: any
 }
 
 export interface LsDataNewMessage{
@@ -39,4 +51,22 @@ export interface LsDataNewMessage{
 export interface LsMessagesFromChat{
     chatId: string,
     messages: LsMessage[]
+}
+
+export interface LsSchedule{
+    _id?: string,
+    from: string,
+    userTo: LsUser,
+    date: Date,
+    message: LsMessage
+}
+
+export interface LsSendSchedule{
+    userTo: string,
+    milisegundos: number,
+    date: Date,
+    message: string,
+    file?: File,
+    isAudio?: boolean,
+    isLocation?: any
 }

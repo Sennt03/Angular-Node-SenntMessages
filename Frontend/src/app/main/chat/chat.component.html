@@ -14,24 +14,19 @@
             <div class="container-menu">
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu"><mat-icon class="menu">more_vert</mat-icon></button>
                 <mat-menu #menu="matMenu" xPosition="before">
-                  <div class="item-menu">
+                  <div class="item-menu" (click)="showContactProfile()">
                     <div mat-menu-item>
                       <span>Contact info</span>
                     </div>
                   </div>
-                  <div class="item-menu">
+                  <div class="item-menu" *ngIf="!chat?.blocked?.from" (click)="blockChat()">
                     <div mat-menu-item>
-                      <span>Clear messages</span>
+                      <span>Block {{chatUser?.name}}</span>
                     </div>
                   </div>
-                  <div class="item-menu">
+                  <div class="item-menu" *ngIf="chat?.blocked?.from && chat?.blocked?.from == user._id" (click)="unlockChat()">
                     <div mat-menu-item>
-                      <span>Delete chat</span>
-                    </div>
-                  </div>
-                  <div class="item-menu">
-                    <div mat-menu-item>
-                      <span>Block David</span>
+                      <span>Unlock {{chatUser?.name}}</span>
                     </div>
                   </div>
                 </mat-menu>
@@ -40,72 +35,88 @@
     </header>
 </div>
 
+<div class="alertMessage" *ngIf="traslating">
+  <p>Translating messages. <br> This could take a few seconds</p>
+</div>
+
 <main id="main" *ngIf="messages; else loading">
+
   <div *ngIf="messages.length > 0; else noMessages">
     <div class="message">
 
       <!-- <div class="message__him message__init row" *ngFor="let message of messages"> -->
       <div *ngFor="let message of messages;let final = last" [ngClass]="{
-        'message__me': message.from == user._id,
-        'message__him': message.to == user._id,
+        'message__me': message.from === user._id,
+        'message__him': message.to === user._id,
         'message__init': isInit(message),
         'final_message': final
       }" [id]="message._id">
-      <div class="image_modal image_{{message.image.public_id}}" (click)="viewPhoto('image_'+message.image.public_id)" *ngIf="message.image">
-        <img [src]="message.image.url" alt="Imagen">
-      </div>
-        <p appMessage class="text-message" *ngIf="message.message.trim().length > 0">{{ message.message }}</p>
-        <!-- .innerHTML.split('\n').length > 1 -->
-        <div class="info" [ngClass]="{'img': message.message.trim().length < 1 && message.image}">
-          <p>{{ message.createdAt | createHour }}</p>
-          <mat-icon class="icon-done" *ngIf="message.from == user._id"
-          [ngClass]="{'read': message.read}">done_all</mat-icon>
+        
+      <!-- IMAGE -->
+        <div class="image_modal image_{{message.image.public_id}}" (click)="viewPhoto('image_'+message.image.public_id)" *ngIf="message.image">
+          <img [src]="message.image.url" alt="Imagen">
         </div>
-      </div>
-      
-      <!-- <cdk-virtual-scroll-viewport itemSize="0">
-        <div *cdkVirtualFor="let message of messages;" [ngClass]="{
-          'message__me': message.from == user._id,
-          'message__him': message.to == user._id,
-          'message__init': isInit(message)
-        }">
-          <img [src]="message.image.url" alt="Imagen" *ngIf="message.image">
-          <p class="text-message" *ngIf="message.message.trim().length > 0">{{ message.message }}</p>
-          <div class="info" [ngClass]="{'img': message.message.trim().length < 1 && message.image}">
-            <p>18:30</p>
-            <mat-icon class="icon-done" *ngIf="message.from == user._id">done_all</mat-icon>
+
+      <!-- DOC -->
+        <div class="doc" *ngIf="message?.doc?.url && message?.doc?.mimetype.split('/')[0] != 'audio'" (click)="downloadDoc(message._id, message.doc.name, message._id + message.doc.url.split('/')[message.doc.url.split('/').length - 1])">
+          <div class="icon">
+            <div class="file">
+              <i class="fas fa-file"></i>
+              <p>{{message.doc.name}}</p>
+            </div>
+            <div class="download animate__animated" [id]="message._id + message.doc.url.split('/')[message.doc.url.split('/').length - 1]">
+              <i class="fas fa-arrow-alt-down"></i>
+            </div>
+          </div>
+          <div class="data">
+            <p>{{ message.doc.name.split('.')[message.doc.name.split('.').length - 1].toUpperCase() }}</p>
+            <p class="space">-</p>
+            <p>{{ message.doc.size | size }}</p>
           </div>
         </div>
-      </cdk-virtual-scroll-viewport> -->
 
-      <!-- <div class="message__him">
-        <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nobis, iure?</p>
-        <div class="info">
-          <p>18:30</p>  
+        <!-- AUDIO -->
+        <div class="audio_reproductor" *ngIf="message?.doc?.url && message?.doc?.mimetype.split('/')[0] == 'audio'">
+          <audio preload="auto" controls [src]="message.doc.url | createUrl"></audio>
+          <!-- <audio controls [src]="message.doc.url" [id]="message._id + Date.now()"></audio> -->
+          <div class="data">
+            {{ message?.doc?.time.toUpperCase() }}
+          </div>
         </div>
+
+        <!-- LOCATION -->
+        <div class="location" *ngIf="message?.location">
+          <a href="{{ message.location | location }}" target="__blank">
+            <img src="assets/images/location.jpg" alt="google maps location">
+          </a>
+        </div>
+
+        <!-- MESSAGE -->
+        <p appMessage class="text-message" *ngIf="message.message.trim().length > 0">{{ message.message }}</p>
+        
+        <!-- INFO -->
+        <div class="info" [ngClass]="{'img': message.message.trim().length < 1 && message.image}">
+          <p>{{ message.createdAt | createHour }}</p>
+          <mat-icon class="icon-done" *ngIf="message.from === user._id"
+          [ngClass]="{'read': message.read}">done_all</mat-icon>
+        </div>
+
+        <!-- OPTIONS -->
+        <span class="options" *ngIf="message.from == user._id || (message?.message?.trim() && message?.message?.trim().length > 0)" 
+        [ngClass]="{ 'options_image': message?.image || message?.doc || message?.location }">
+          <mat-icon (click)="openMessageMenu(message._id, message.from, message.message, buttonOptionsMessage)">keyboard_arrow_down</mat-icon>
+          <button [matMenuTriggerFor]="menuMessage" aria-label="menuMessage" #buttonOptionsMessage></button>
+        </span>
+
       </div>
-      <div class="message__me message__init">
-        <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias, ea maiores in suscipit reiciendis sit repudiandae possimus? Voluptates culpa enim minus quam tenetur nulla ipsam. Neque tenetur at voluptatibus magnam.</p>
-        <div class="info">
-          <p>18:30</p>  
-          <mat-icon class="icon-done">done_all</mat-icon>
-        </div>
-      </div>
-      <div class="message__me">
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit neque doloribus voluptas rerum! Mollitia hic quia doloribus eius! Cupiditate, tempora.</p>
-        <div class="info">
-          <p>18:30</p>  
-          <mat-icon class="icon-done">done_all</mat-icon>
-        </div>
-      </div> -->
     </div>
   </div>
   <ng-template #noMessages>
-    <p class="noMessages">You have no messages in this chat.</p>
+    <p class="noMessages" *ngIf="!chat?.blocked?.from">You have no messages in this chat.</p>
   </ng-template>
 </main>
-<app-input (sendMessage)="sendMessage($event)"
-(sendAlert)="sendAlert($event)"></app-input>
+<app-input [inputId]="inputId" (sendMessage)="sendMessage($event)"
+(sendAlert)="sendAlert($event)" *ngIf="!chat?.blocked?.from; else blocked"></app-input>
 
 <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>
 
@@ -114,3 +125,21 @@
 <ng-template #loading>
   <mat-spinner class="spinner-chat" id="loading"></mat-spinner>
 </ng-template>
+
+<ng-template #blocked>
+  <p class="noMessages" *ngIf="chat.blocked.from == user._id" (click)="unlockChat()" style="cursor: pointer;">You have blocked this user.<br>Click here to unlock.</p>
+  <p class="noMessages" *ngIf="chat.blocked.from != user._id">This user has blocked you</p>
+</ng-template>
+
+<mat-menu #menuMessage="matMenu" xPosition="before">
+  <div class="item-menu" (click)="deleteMessage()" *ngIf="message_option?.from == user._id">
+    <div mat-menu-item>
+      <span>Delete message</span>
+    </div>
+  </div>
+  <div class="item-menu" (click)="translateMessage()" *ngIf="message_option?.message?.trim() && message_option?.message?.trim().length > 0">
+    <div mat-menu-item>
+      <span>Translate message</span>
+    </div>
+  </div>
+</mat-menu>

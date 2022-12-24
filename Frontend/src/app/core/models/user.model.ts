@@ -7,6 +7,11 @@ export interface LsUser{
     image: {
         url: string,
         default?: string
+    },
+    location?: {
+        latitud: string,
+        longitud: string,
+        share: boolean
     }
 }
 

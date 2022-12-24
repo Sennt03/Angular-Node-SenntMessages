@@ -1,11 +1,11 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from '@services/user.service';
 import { LsUser } from 'src/app/core/models/user.model';
 import { AuthService } from '@services/auth.service';
 import { ChatService } from '@services/chat.service';
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, Observable, Subscription } from 'rxjs';
 import { LsChat } from '@models/chat.model';
 
 @Component({
@@ -15,12 +15,14 @@ import { LsChat } from '@models/chat.model';
 })
 export class UsersComponent implements OnInit {
 
+  @Input('updateUsers') update: Observable<any>
   @Output() chatsUpdated: EventEmitter<any> = new EventEmitter()
 
   allUsers: LsUser[]
   users: LsUser[]
   inputSearch = new FormControl()
   searchSubscription: Subscription
+
 
   constructor(
     private userService: UserService,
@@ -31,6 +33,9 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUsers()
+    this.update.subscribe(res => {
+      this.getUsers()
+    })
   }
 
   getUsers(){

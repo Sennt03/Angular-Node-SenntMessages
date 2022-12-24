@@ -7,7 +7,6 @@ async function validateChatId(id){
     try{
         const chat = await store.getChat(id)
         if(chat){
-            // store.updateChat(chat._id, { updatedAt: new Date() }).then(res => chat._doc.updatedAt = res.updatedAt)
             return chat
         }else{
             throw myError('Chat does not exist', 400)
@@ -22,15 +21,29 @@ async function getChatByUsers(users, create = false){
         throw myError('Users invalids', 400)
     }
 
-    await userController.validTo(users[1])
-
-    const existChat = await store.findOne({ users })
+    const toValidate = await userController.validTo(users[1])
+    const findChat = [users[0], toValidate]
+    const existChat = await store.findOne({ users: findChat })
     if(existChat){
         return existChat
     }else if(!existChat && create){
         return await store.add({ users })
     }
+}
 
+async function getChatByUsersPromise(users, create = false){
+    if(!users || !Array.isArray(users)){
+        throw myError('Users invalids', 400)
+    }
+
+    const toValidate = await userController.validTo(users[1])
+    const findChat = [users[0], toValidate]
+    const existChat = await store.findOne({ users: findChat })
+    if(existChat){
+        return store.findOne({ users })
+    }else if(!existChat && create){
+        return store.add({ users })
+    }
 }
 
 async function getAll(userId){
@@ -73,9 +86,45 @@ async function getOtherUserByChatId(chatId, myId){
     return otherUser
 }
 
+async function getChatById(chatId, userId){
+    const chat = await store.findOne({$and: [{_id: chatId}, {users: userId}]})
+    if(!chat){
+        throw myError('Chat does not exists', 400)
+    }
+
+    return chat
+}
+
+async function blockChat(chatId, userId){
+    const chat = await getChatById(chatId, userId)
+    if(chat?.blocked?.from){
+        throw myError('The chat has already been blocked by a chat member', 403)
+    }
+    const to = chat.users.filter(user => JSON.stringify(user) != JSON.stringify(userId))[0]
+    
+    return store.updateChat(chatId, {blocked: {from: userId, to}})
+}
+
+async function unlockChat(chatId, userId){
+    const chat = await getChatById(chatId, userId)
+    if(!chat?.blocked?.from){
+        throw myError('This chat is not blocked', 400)
+    }
+    
+    if(JSON.stringify(chat.blocked.from) != JSON.stringify(userId)){
+        throw myError('You can not unblock this chat', 400)
+    }
+    
+    return store.updateChat(chatId, {blocked: {}})
+}
+
 module.exports = {
     validateChatId,
     getChatByUsers,
     getAll,
-    getOtherUserByChatId
+    getOtherUserByChatId,
+    getChatById,
+    blockChat,
+    unlockChat,
+    getChatByUsersPromise
 }

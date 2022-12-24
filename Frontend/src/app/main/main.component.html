@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" >
   <div class="chats-container" id="chats-container">
     <header class="header">
       <div class="header__top">
@@ -13,6 +13,32 @@
               <div mat-menu-item (click)="openProfile()">
                 <mat-icon class="mr-icon">person_pin</mat-icon>
                 <span>Profile</span>
+              </div>
+            </div>
+            <div class="item-menu">
+              <div mat-menu-item [matMenuTriggerFor]="menuMessages">
+                <mat-icon style="margin-right: 7px;"> message</mat-icon>
+                <span>Messages</span>
+              </div>
+            </div>
+            <mat-menu #menuMessages="matMenu" class="main-menu">
+              <div class="item-menu" routerLink="/message/multiple">
+                <div mat-menu-item>
+                  <mat-icon>people</mat-icon>
+                  <span>Send multiple</span>
+                </div>
+              </div>
+              <div class="item-menu" routerLink="/message/schedule">
+                <div mat-menu-item>
+                  <mat-icon>access_time</mat-icon>
+                  <span>Schedule</span>
+                </div>
+              </div>
+            </mat-menu>
+            <div class="item-menu">
+              <div mat-menu-item (click)="openSettings()">
+                <mat-icon class="mr-icon">settings</mat-icon>
+                <span>Settings</span>
               </div>
             </div>
             <div class="item-menu">
@@ -45,7 +71,7 @@
             </ng-template>
   
             <div class="app-chats">
-              <app-users (chatsUpdated)="updateChats()"></app-users>
+              <app-users [updateUsers]="eventUpdateUsers" (chatsUpdated)="updateChats()"></app-users>
             </div>
   
           </mat-tab>
@@ -53,10 +79,13 @@
       </div>
     </header>
 
-    <app-profile id="div_profile" class="app-profile animate__animated animate__slideInLeft animate__faster"></app-profile>
+    <app-profile [updateProfile]="eventUpdateProfileUser" id="div_profile" class="app-profile animate__animated animate__slideInLeft animate__faster"></app-profile>
+    <app-settings id="div_settings" class="app-profile animate__animated animate__slideInLeft animate__faster"></app-settings>
   </div>
   
   <div class="chat-container">
     <router-outlet></router-outlet>
   </div>
 </div>
+
+<app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>

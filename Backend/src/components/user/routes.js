@@ -4,7 +4,7 @@ const response = require('../../network/response')
 const { verifyToken } = require('../../middlewares/authHandlers')
 const Users = require('../../socket/classes/Users')
 const Events = require('../../socket/classes/Events')
-const { updateValidator, validatorField, validateEmail, validatorEmail } = require('./validators')
+const { updateValidator, validatorField, validateEmail, validatorEmail, updateLocationValidator } = require('./validators')
 
 router.get('/', verifyToken, async (req, res, next) => {
     const { _id } = req.user
@@ -66,5 +66,29 @@ router.get('/allConnect', (req, res, next) => {
     const listUsers = Users.getList()
     response(req, res, { listUsers })
 })
+
+
+// LOCATION
+
+router.post('/updateLocation', verifyToken, updateLocationValidator, async (req, res, next) => {
+    const { latitud, longitud } = req.body
+    const update = { latitud, longitud, share: true }
+    try{
+        const userUpdated = await controller.updateProfile(req.user._id, 'location', update)
+        response(req, res, userUpdated)
+    }catch(err){
+        next(err)
+    }
+})
+
+router.delete('/deleteLocation', verifyToken, async (req, res, next) => {
+    try{
+        const userUpdated = await controller.updateProfile(req.user._id, 'location', {})
+        response(req, res, userUpdated)
+    }catch(err){
+        next(err)
+    }
+})
+
 
 module.exports = router

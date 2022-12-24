@@ -29,6 +29,21 @@ const MessageSchema = new Schema({
         },
         required: false
     },
+    doc: {
+        name: String,
+        url: String,
+        mimetype: String,
+        size: String,
+        time: {
+            type: String,
+            required: false
+        }
+    },
+    location: {
+        latitud: Number,
+        longitud: Number,
+        required: false
+    },
     read: {
         type: Boolean,
         required: true,

@@ -70,6 +70,11 @@
     color: #Fff;
     margin-top: 10px;
 
+    & > div{
+        display: flex;
+        align-items: center;
+    }
+
     span, i{
         color: #757575;
     }

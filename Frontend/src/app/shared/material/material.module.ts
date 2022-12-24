@@ -8,7 +8,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatInputModule } from '@angular/material/input';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 @NgModule({
   declarations: [],
@@ -21,7 +25,12 @@ import { MatInputModule } from '@angular/material/input';
     MatTabsModule,
     MatBadgeModule,
     MatProgressSpinnerModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatSlideToggleModule
   ],
   exports: [
     MatIconModule,
@@ -31,7 +40,12 @@ import { MatInputModule } from '@angular/material/input';
     MatTabsModule,
     MatBadgeModule,
     MatProgressSpinnerModule,
-    MatInputModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule,
+    MatSlideToggleModule
   ]
 })
 export class MaterialModule { }

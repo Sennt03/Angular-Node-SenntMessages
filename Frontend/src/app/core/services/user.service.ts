@@ -44,6 +44,31 @@ export class UserService {
     }
   }
 
+  updateLocation(location){
+    return this.http.post(`${this.url}/updateLocation`, location)
+    .pipe(catchError(err => { return this.handleError(err) }))
+  }
+  
+  deleteLocation(){
+    return this.http.delete(`${this.url}/deleteLocation`)
+    .pipe(catchError(err => { return this.handleError(err) }))
+  }
+
+  getPosition(): Promise<any> {
+    return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(res => {
+                // resolve({longitud: resp.coords.longitude, latitud: resp.coords.latitude});
+                resolve(res);
+            },
+            err => {
+                reject(err);
+          });
+    });
+  }
+
+  // getPosition(): Promise<any>{
+  //   return Geolocation.getCurrentPosition()
+  // }
 
 
   // Handle error

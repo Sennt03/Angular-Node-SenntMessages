@@ -1,4 +1,5 @@
 export interface LsEventOpenAlert{
     content: string, 
-    time: boolean
+    time: boolean,
+    close?: boolean
   }

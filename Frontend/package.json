@@ -23,10 +23,14 @@
     "@ctrl/ngx-emoji-mart": "^7.0.0",
     "@ngrx/store": "^14.0.2",
     "@ngrx/store-devtools": "^14.0.2",
+    "file-saver": "^2.0.5",
     "ngx-device-detector": "^4.0.0",
+    "ngx-mat-timepicker": "^14.0.2",
     "ngx-socket-io": "^4.3.0",
+    "peerjs": "^1.4.7",
     "rxjs": "~7.5.6",
     "tslib": "^2.4.0",
+    "uuid": "^9.0.0",
     "zone.js": "~0.11.6"
   },
   "devDependencies": {

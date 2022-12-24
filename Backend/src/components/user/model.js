@@ -31,6 +31,11 @@ const mySchema = new Schema({
         default: {
             type: String
         }
+    },
+    location: {
+        latitud: String,
+        longitud: String,
+        share: Boolean
     }
 }, {
     timestamps: true,

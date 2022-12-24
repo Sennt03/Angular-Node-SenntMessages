@@ -40,6 +40,10 @@ export class MiniAlertComponent implements OnInit {
         this.close()
       }, 5000);
     }
+
+    if(content?.close){
+      this.close()
+    }
   }
 
   close(){

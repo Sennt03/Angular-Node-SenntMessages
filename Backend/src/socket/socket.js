@@ -6,7 +6,7 @@ const socket = {}
 
 function connect(server){
     socket.io = socketIO(server, { cors: {
-        origin: config.whiteList,
+        origin: true,
         methods: ['GET', 'POST']
     } })
 
