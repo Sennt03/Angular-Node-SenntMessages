@@ -17,7 +17,7 @@ Es un auth normal pero con inputs reactivos, en el formulario de registro valida
 * Uso de validaciones por defecto, validaciones asincronas, grupales y personalizadas
 
 ## Profile
-En los inputs para editar tus datos como el name tambien son reactivos (FormControl) igual con validaciones asiconcronas
+En los inputs para editar tus datos como el name tambien son reactivos (FormControl) igual con validaciones asiconcronas.
 
 * Cambio de foto de perfil u opciones para eliminar la imagen
 * Cambio de tus datos personales, name, username e email
