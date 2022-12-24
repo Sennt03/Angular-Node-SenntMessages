@@ -1,0 +1,40 @@
+<div id="finished_call" *ngIf="finished; else noFinished">
+    <h3>Call ended</h3>
+    <p routerLink="/"><i class="fas fa-home-lg-alt"></i>Home</p>
+  </div>
+  
+  <ng-template #noFinished>
+    <div id="people">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col text-center">
+            <div id="video-wrapper" *ngIf="dataPeer?.type == 'video'; else voice">
+              <video *ngIf="answered; else calling" [srcObject]="remoteStream" #remoteVideo id="remote-video" poster="./assets/video-placeholder.jpg" autoplay playsinline></video>
+              <video *ngIf="currentStream" [srcObject]="currentStream" #localVideo id="local-video" autoplay playsinline [muted]=true></video>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div id="finish" (click)="callEnd()">
+      <i class="fas fa-phone-slash"></i>
+    </div>
+  </ng-template>
+  
+  <ng-template #calling>
+    <p class="calling">Calling...</p>
+  </ng-template>
+  
+  <ng-template #voice>
+    <div id="video-wrapper onlyVoice">
+      <div *ngIf="answered; else calling" id="remote-voice">
+        <video [srcObject]="remoteStream" #remoteVoice poster="./assets/video-placeholder.jpg" autoplay playsinline></video>
+      </div>
+      <div *ngIf="currentStream" id="local-voice">
+        <video [srcObject]="currentStream" #localVoice autoplay playsinline [muted]=true></video>
+      </div>
+    </div>
+  </ng-template>
+  
+  <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>

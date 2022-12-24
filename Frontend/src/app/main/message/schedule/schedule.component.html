@@ -1,0 +1,95 @@
+<div class="con">
+    <div class="container">
+      <header class="header">
+          <div class="me">
+              <mat-icon class="back" routerLink="/">arrow_back</mat-icon>
+              <p>Schedule a message</p>
+          </div>
+      </header>
+  </div>
+  
+  <main id="main" class="animate__animated animate__zoomIn animate__faster">
+      <div class="title">
+          <h3>Scheduled messages</h3>
+          <button mat-raised-button (click)="toggleCreate()">{{ !createActive ? 'Schedule new message' : 'Close create'}}</button>
+      </div>
+      <div class="message_alert" *ngIf="schedules.length < 1 && !createActive">You have no scheduled messages</div>
+      <div class="schedules" *ngIf="!createActive">
+          <div *ngIf="schedules.length > 0">
+              <div class="schedule" *ngFor="let schedule of schedules">
+                  <div class="data">
+                      <p><span>To:</span> {{schedule.userTo.name}} - {{schedule.userTo.username}}</p>
+                      <div>
+                          <span>Scheduled:</span>
+                          <p>{{ schedule.date | date:'MMMM d - HH:mm'}}</p>
+                      </div>
+                  </div>
+                  <div class="delete">
+                      <button mat-mini-fab color="warn" (click)="deleteSchedule(schedule._id)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <div class="create_schedule" *ngIf="createActive">
+          <p class="info">*If the date and time is prior to the current one, the message will be sent automatically.</p>
+          <div class="date">
+              <div class="text">
+                  <h3>Select date and hour</h3>
+              </div>
+              <mat-form-field appearance="fill" (click)="picker.open()">
+                  <mat-label>Choose a date</mat-label>
+                  <input (dateChange)="changeDate($event)"
+                  matInput [min]="minDate" [max]="maxDate" [matDatepicker]="picker" [value]="date">
+                  <mat-hint>MM/DD/YYYY</mat-hint>
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+              <div class="hour">
+                  <ngx-mat-timepicker-field (timeChanged)="changeHour($event)"
+                  [format]="24" [defaultTime]="hour"></ngx-mat-timepicker-field>
+              </div>
+          </div>
+          
+          <button mat-raised-button class="btn_continue" color="primary" (click)="continueValidate()" *ngIf="!continue">Continue</button>
+          <button mat-raised-button class="btn_continue" color="primary" (click)="cancelToggle()" *ngIf="continue">Cancel</button>
+  
+          <div class="users" *ngIf="continue">
+  
+              <div class="text">
+                  <h3>Select a user</h3>
+              </div>
+  
+              <div class="search">
+                  <input type="text" [formControl]="inputSearch" id="inputSearchSchedule" placeholder="Search users by name and username" autocomplete="off" 
+                  (focus)="search()" (blur)="search(false)">
+                  <mat-icon class="search-icon">search</mat-icon>
+                  <mat-spinner class="spinner-users" id="loading"></mat-spinner>
+                  <mat-icon id="clean-search" (click)="cleanSearch()" *ngIf="inputSearch.value">close</mat-icon>
+              </div>
+              
+              <div *ngIf="users?.length > 0; else noFound">
+                  <mat-radio-group class="user_radio">
+                      <div class="user" *ngFor="let user of users">
+                          <img [src]="user.image.url" [alt]="user.name">
+                          <div class="data">
+                              <div class="data__text">
+                                  <p class="name">{{ user.name }}</p>
+                                  <p class="username">{{ user.username }}</p>
+                              </div>
+                              <mat-radio-button [value]="user._id" (change)="selectUser(user._id)"></mat-radio-button>
+                          </div>
+                      </div>
+                  </mat-radio-group>
+              </div>
+            
+              <ng-template #noFound>
+                  <p class="textNoFound">No users found.</p>
+              </ng-template>
+            
+          </div>
+      </div>
+  </main>
+  <app-input (sendMessage)="sendMessage($event)" (sendAlert)="sendAlertInput($event)" [inputId]="inputId" *ngIf="createActive && continue"></app-input>
+  <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>

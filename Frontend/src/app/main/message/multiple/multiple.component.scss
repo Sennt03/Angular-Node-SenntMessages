@@ -1,0 +1,212 @@
+@import '../../../../vars';
+
+:root {
+    --app-height: 100%;
+ }
+
+:host{
+    background: #fff;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+}
+
+.con{
+    width: 100%;
+    height: var(--app-height);
+    position: relative;
+    background: #d2efff;
+}
+
+.header{
+    align-items: center;
+    background: $primary;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 10px;
+
+    .me{
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .back{
+            cursor: pointer;
+        }
+
+        p{
+            cursor: default;
+            font-size: 19px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 10px !important;
+            padding: 8px 0;
+        }
+    }
+}
+
+#main{
+    width: 100%;
+    overflow-y: auto;
+    background: #fff;
+    height: calc(var(--app-height) - 118px);
+    padding-bottom: 12px;
+    position: relative;
+
+    &::-webkit-scrollbar{
+        width: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb{
+        background: lighten($color: $primary, $amount: 15);
+    }
+
+}
+
+app-input{
+    background: #d2efff;
+    padding-top: 10px;
+}
+
+.users{
+    .user{
+        cursor: pointer;
+        display: grid;
+        padding: 10px 20px;
+        grid-template-columns: auto 1fr;
+
+        img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .data{
+            display: grid;
+            grid-template-columns: 1fr 24px;
+            align-items: center;
+            border-bottom: 1px solid #efefef;
+            padding-bottom: 5px;
+            padding-top: 3px;
+
+            &__text{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-right: 11px;
+
+                .name{
+                    font-size: 18px;
+                    color: #000;
+                }
+                
+                .username{
+                    font-size: 14px;
+                    color: $dark;
+                }
+
+                p{
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    margin-right: 4px !important;
+                }
+            }
+        }
+
+        mat-icon{
+            color: $dark;
+        }
+
+        &:hover{
+            background: darken($color: #fff, $amount: 3);
+        }
+    }
+
+
+    .search{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        border-bottom: 1px solid #efefef;
+        position: sticky;
+        top: 0;
+        background: #fff;
+
+        input{
+            border: none;
+            outline: none;
+            width: 94%;
+            margin: 10px auto;
+            background: #44bcff59;
+            padding: 10px 30px 10px 42px;
+            border-radius: 50px;
+            color: #686868;
+        }
+
+        mat-icon.search-icon{
+            position: absolute;
+            // left: 22px;
+            left: 5.2%;
+            top: 19px;
+            color: #919191;
+        }
+
+        #clean-search{
+            width: 20px !important;
+            height: 20px !important;
+            color: #919191;
+            cursor: pointer;
+            position: absolute;
+            right: 7%;
+            top: 16px;
+        }
+    }
+}
+
+.textNoFound{
+    text-align: center;
+    font-size: 17px;
+    margin-top: 30px !important;
+    color: $gris-claro;
+}
+
+@media(min-width: 400px){
+    .users .search #clean-search{
+        right: 6%;
+    }
+}
+
+@media(min-width: 600px){
+    .users .search #clean-search{
+        right: 5%;
+    }
+}
+
+@media(min-width: 1024px){
+    :host{
+        position: static;
+    }
+
+    #main{
+        padding: 0;
+    }
+
+    .users .search #clean-search{
+        right: 6.5%;
+    }
+}
+
+@media(min-width: 1200px){
+    #main{
+        padding: 0 30px;
+    }
+}

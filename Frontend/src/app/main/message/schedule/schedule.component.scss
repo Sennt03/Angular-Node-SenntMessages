@@ -1,0 +1,308 @@
+@import '../../../../vars';
+
+// $primary: #6405B3;
+// $dark: #446678;
+// $fondo: #44BCFF;
+// $error: #FF0000;
+// $piel: #FFF5C1;
+// $gris-claro: #8A8A8A;
+// $light-grey: #8A8A8A;
+
+:root {
+    --app-height: 100%;
+ }
+
+:host{
+    background: #fff;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: 200;
+}
+
+.con *:not(mat-icon){
+    font-family: Helvetica !important;
+}
+
+.con{
+    width: 100%;
+    height: var(--app-height);
+    position: relative;
+}
+
+.header{
+    align-items: center;
+    background: $primary;
+    color: #fff;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    padding: 10px;
+
+    .me{
+        display: flex;
+        align-items: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        .back{
+            cursor: pointer;
+        }
+
+        p{
+            cursor: default;
+            font-size: 19px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 10px !important;
+            padding: 8px 0;
+        }
+    }
+}
+
+app-input{
+    padding-top: 10px;
+    background: #d2efff;
+}
+
+#main{
+    color: #000;
+    width: 100%;
+    background: #fff;
+    overflow-y: auto;
+
+    height: calc(var(--app-height) - 118px);
+    padding-bottom: 12px;
+    position: relative;
+
+    &::-webkit-scrollbar{
+        width: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb{
+        background: lighten($color: $primary, $amount: 15);
+    }
+
+    .title{
+        display: flex;
+        justify-content: space-between;
+        padding: 25px 30px 20px;
+        align-items: center;
+        flex-wrap: wrap;
+
+        h3{
+            margin: 0 15px 10px 0;
+            font-size: 18px;
+        }
+    }
+
+    .message_alert{
+        text-align: center;
+        padding: 25px 0;
+        font-size: 15px;
+        color: #707070;
+        border-top: 1px solid #ccc;
+    }
+
+    .schedules{
+        .schedule{
+            background: #6405b314;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #ccc;
+            border-top: 1px solid #ccc;
+
+            .data{
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                width: 60%;
+                font-size: 15px;
+            }
+
+            span{
+                font-weight: bold;
+                font-size: 16px;
+            }
+        }
+    }
+
+    .create_schedule{
+
+        .date{
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            align-items: center;
+
+            & > div, & mat-form-field{
+                margin: 0 10px;
+            }
+        }
+
+        .users{
+            .text{
+                h3{
+                    padding: 15px 35px;
+                    border-bottom: 1px solid #ccc;
+                    border-top: 1px solid #ccc;
+                    margin-top: 15px;
+                    background: #d2efff;
+                }
+            }
+        }
+
+    }
+
+}
+
+.btn_continue{
+    margin: 10px 0 0 35px;
+    display: block;
+}
+
+.info{
+    color: #9d0101;
+    padding: 8px 35px;
+    background: #d2efff;
+    margin-bottom: 25px !important;
+    font-size: 13px;
+}
+
+// USERS
+
+.users{
+    .user{
+        cursor: pointer;
+        display: grid;
+        padding: 10px 20px;
+        grid-template-columns: auto 1fr;
+
+        img{
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .data{
+            display: grid;
+            grid-template-columns: 1fr 24px;
+            align-items: center;
+            border-bottom: 1px solid #efefef;
+            padding-bottom: 5px;
+            padding-top: 3px;
+
+            &__text{
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                margin-right: 11px;
+
+                .name{
+                    font-size: 18px;
+                    color: #000;
+                }
+                
+                .username{
+                    font-size: 14px;
+                    color: $dark;
+                }
+
+                p{
+                    text-overflow: ellipsis;
+                    overflow: hidden;
+                    margin-right: 4px !important;
+                }
+            }
+        }
+
+        mat-icon{
+            color: $dark;
+        }
+
+        &:hover{
+            background: darken($color: #fff, $amount: 3);
+        }
+    }
+
+
+    .search{
+        display: flex;
+        justify-content: center;
+        position: relative;
+        border-bottom: 1px solid #efefef;
+        position: sticky;
+        top: 0;
+        background: #fff;
+
+        input{
+            border: none;
+            outline: none;
+            width: 94%;
+            margin: 10px auto;
+            background: #44bcff59;
+            padding: 10px 30px 10px 42px;
+            border-radius: 50px;
+            color: #686868;
+        }
+
+        mat-icon.search-icon{
+            position: absolute;
+            // left: 22px;
+            left: 5.2%;
+            top: 19px;
+            color: #919191;
+        }
+
+        #clean-search{
+            width: 20px !important;
+            height: 20px !important;
+            color: #919191;
+            cursor: pointer;
+            position: absolute;
+            right: 7%;
+            top: 16px;
+        }
+    }
+}
+
+.textNoFound{
+    text-align: center;
+    font-size: 17px;
+    margin-top: 30px !important;
+    color: $gris-claro;
+}
+
+@media(min-width: 427px){
+    #main{
+        .title{
+            h3{
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+@media(min-width: 1024px){
+    :host{
+        position: static;
+    }
+}
+
+@media(min-width: 1200px){
+    #main{
+        .schedules{
+            .schedule{
+                padding: 20px 35px;
+            }
+        }
+    }
+}

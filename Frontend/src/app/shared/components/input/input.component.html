@@ -1,0 +1,89 @@
+<div class="showImage" *ngIf="showImageDiv">
+    <div *ngIf="isImageOrDoc == 'image'; else docDiv">
+      <mat-icon (click)="cancelImage()">close</mat-icon>
+      <img [src]="image" *ngIf="image; else loading">
+    </div>
+    <ng-template #docDiv>
+      <div class="docDiv">
+        <mat-icon (click)="cancelImage()">close</mat-icon>
+        <div class="data">
+          <p class="name">{{ docInfo.name }}</p>
+          <img src="assets/images/docs.png">
+          <h3>No preview available</h3>
+          <p class="size">{{ docInfo.size }} - {{ docInfo.ext }}</p>
+        </div>
+  
+        <div class="send" (click)="send()">
+          <mat-icon>send</mat-icon>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  
+  <ng-template #loading>
+    <mat-spinner></mat-spinner>
+  </ng-template>
+  
+  <div class="input-container animate__animated animate__fast" id="input-container" [ngClass]="{
+    'hiden_input': showImageDiv && isImageOrDoc == 'doc', 
+    'animate__fadeOutLeft': (showImageDiv && isImageOrDoc == 'doc') || showAudioDiv
+  }">
+  
+    <!-- Emojis -->
+    <div class="emojis" *ngIf="emojisToggle">
+      <emoji-mart set="twitter" [exclude]="['flags']" (emojiClick)="addEmoji($event)"></emoji-mart>
+    </div>
+  
+    <div class="input">
+        <i class="far fa-grin-alt emojis_icon" (click)="openEmojis()"></i>
+        <textarea rows="1" style="height:1em;" [id]="inputId" placeholder="Type a message" [formControl]="input"></textarea>
+        <button mat-icon-button [matMenuTriggerFor]="menuOptionsFiles" class="btn_options">
+          <i class="fas fa-paperclip"></i>
+        </button>
+    </div>
+    <div class="send" (click)="send()">
+        <mat-icon>send</mat-icon>
+    </div>
+  </div>
+  <!-- <div id="open" (click)="open()">
+    <mat-icon> chat_bubble</mat-icon>
+  </div> -->
+  
+  <input type="file" style="display: none;" #inputFile (change)="selectImage($event, inputFile)">
+  
+  <mat-menu #menuOptionsFiles="matMenu" class="main-menu">
+    <div class="item-menu">
+      <div mat-menu-item (click)="openInput(inputFile, true)">
+        <i class="far fa-image"></i>
+        <span>Images</span>
+      </div>
+    </div>
+    <div class="item-menu">
+      <div mat-menu-item (click)="openInput(inputFile)">
+        <i class="fas fa-file small doc"></i>
+        <span class="doc">Docs</span>
+      </div>
+    </div>
+    <div class="item-menu">
+      <div mat-menu-item (click)="sendLocation()">
+        <i class="fas fa-map-marker-alt small location"></i>
+        <span class="location">Location</span>
+      </div>
+    </div>
+    <div class="item-menu">
+      <div mat-menu-item (click)="recordAudio()">
+        <i class="fas fa-microphone small audio"></i>
+        <span class="audio">Audio</span>
+      </div>
+    </div>
+  </mat-menu>
+  
+  <div class="input_audio" *ngIf="!showImageDiv && showAudioDiv">
+    <div class="container_audio">
+      <div class="delete" (click)="cancelAudio()"><i class="fas fa-trash"></i></div>
+      <div id="duracion">0:00</div>
+      <div class="send" (click)="detenerGrabacion()"><mat-icon>send</mat-icon></div>
+    </div>
+  </div>
+  
+  <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()" [bottom]="true"></app-mini-alert>

@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="header">
+        <mat-icon class="back" (click)="close()">arrow_back</mat-icon>
+        <p>Select messages language</p>
+    </div>
+    <div class="main">
+      <div id="options_settings">
+        <div class="share_location">
+          <div class="text">
+            <h3>Share location</h3>
+            <mat-slide-toggle (change)="toggleShare($event)" [checked]="share"></mat-slide-toggle>
+          </div>
+          <div class="data" *ngIf="shareData?.latitud">
+            <a mat-raised-button href="{{ shareData | location }}" target="_blank">Shared location</a>
+          </div>
+        </div>
+        
+        <div class="lang notTranslate">Translate messages
+          <mat-slide-toggle (change)="toggleActive($event)" [checked]="active"></mat-slide-toggle>
+        </div>
+    
+        <div class="search" *ngIf="active">
+          <input type="text" [formControl]="inputSearch" id="inputSearch" placeholder="Search language" autocomplete="off" 
+          (focus)="search()" (blur)="search(false)">
+          <mat-icon class="search-icon">search</mat-icon>
+          <mat-spinner class="spinner-users" id="loading"></mat-spinner>
+          <mat-icon id="clean-search" (click)="cleanSearch()" *ngIf="inputSearch.value">close</mat-icon>
+        </div>
+      </div>
+      <div id="langs">
+    
+        <div class="langs" *ngIf="active">
+            <div class="lang"><span>Actual language: </span>{{ langActive }}</div>
+            <div class="lang" *ngFor="let lang of langs" (click)="selectLang(lang)">{{lang[1]}}</div>
+        </div>
+      </div>
+      </div>
+  
+    <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>
+  </div>

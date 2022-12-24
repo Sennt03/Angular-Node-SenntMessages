@@ -1,0 +1,44 @@
+<div class="con">
+    <div class="container">
+      <header class="header">
+          <div class="me">
+              <mat-icon class="back" routerLink="/">arrow_back</mat-icon>
+              <p>Send a message to multiple people</p>
+          </div>
+      </header>
+  </div>
+  
+  <main id="main">
+  
+      <div class="users animate__animated animate__zoomIn animate__faster">
+  
+          <div class="search">
+              <input type="text" [formControl]="inputSearch" id="inputSearchMultiple" placeholder="Search users by name and username" autocomplete="off" 
+              (focus)="search()" (blur)="search(false)">
+              <mat-icon class="search-icon">search</mat-icon>
+              <mat-spinner class="spinner-users" id="loading"></mat-spinner>
+              <mat-icon id="clean-search" (click)="cleanSearch()" *ngIf="inputSearch.value">close</mat-icon>
+          </div>
+          
+          <div *ngIf="users?.length > 0; else noFound">
+              <div class="user" *ngFor="let user of users">
+                  <img [src]="user.image.url" [alt]="user.name">
+                  <div class="data">
+                      <div class="data__text">
+                          <p class="name">{{ user.name }}</p>
+                          <p class="username">{{ user.username }}</p>
+                      </div>
+                      <mat-checkbox (change)="toggleUserSelected($event.checked, user._id)"></mat-checkbox>
+                  </div>
+              </div>
+          </div>
+        
+          <ng-template #noFound>
+              <p class="textNoFound">No users found.</p>
+          </ng-template>
+        
+      </div>
+  
+  </main>
+  <app-input (sendMessage)="sendMessage($event)" (sendAlert)="sendAlertInput($event)" [inputId]="inputId"></app-input>
+  <app-mini-alert [eventOpenAlert]="eventOpenAlert.asObservable()"></app-mini-alert>

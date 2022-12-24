@@ -1,0 +1,135 @@
+:host{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 400;
+    background: #343434;
+    max-width: 100%;
+}
+
+#video-wrapper {
+	text-align: center;
+    background-color: #343434;
+	border-radius: 4px;
+}
+
+#remote-video {
+	max-width: 100%;
+    max-height: 90vh;
+    border-radius: 4px;
+    border: 3px solid #fff;
+    width: 85vw;
+    height: 85vh;
+    background: #000;
+}
+
+#local-video {
+    z-index: 1;
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: 25vw;
+    height: 20vw;
+    max-width: 20rem;
+    max-height: 20rem;
+    border: 3px solid white;
+    border-radius: 4px;
+    min-width: 200px;
+    height: 150px;
+    background: #000;
+}
+
+#remote-voice {
+	max-width: 100%;
+    max-height: 90vh;
+    border-radius: 4px;
+    border: 3px solid #fff;
+    width: 85vw;
+    height: 85vh;
+    background: #000;
+
+    &::before{
+        content: 'Conectado';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        font-size: 40px;
+        color: #fff;
+    }
+}
+
+#local-voice {
+    z-index: 1;
+    position: absolute;
+    right: 1.5rem;
+    bottom: 1.5rem;
+    width: 25vw;
+    height: 20vw;
+    max-width: 20rem;
+    max-height: 20rem;
+    border: 3px solid white;
+    border-radius: 4px;
+    min-width: 200px;
+    height: 150px;
+    background: #000;
+
+    &::before{
+        content: 'Conectado';
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        font-size: 25px;
+        color: #fff;
+    }
+}
+
+#people{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#finish{
+    background: #eb0707;
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    transform: scale(2);
+    padding: 9px;
+    border-radius: 10px 0 0px 25px;
+    cursor: pointer;
+}
+
+.calling{
+    font-size: 10vw;
+}
+
+#finished_call{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    h3{
+        font-size: 3em;
+    }
+
+    p{
+        font-size: 25px;
+        margin-top: 10px !important;
+        color: #d9d9d9;
+        cursor: pointer;
+        display: flex;
+        align-items: end;
+
+        i{
+            margin-right: 5px;
+        }
+    }
+}
