@@ -1,6 +1,6 @@
 # SenntMessages
 App de mensajeria en tiempo real con socket.io
-LINK: https://sennt03.github.io/Senntmessages/
+LINK: https://senntmessages.up.railway.app/
 
 ## Detalles
 * La aplicación esta modularizada
@@ -23,8 +23,11 @@ En los inputs para editar tus datos como el name tambien son reactivos (FormCont
 * Cambio de tus datos personales, name, username e email
 * Cambio de contraseña
 
+## Settings
+* Puedes configurar un idioma para traducir mensajes
+
 # Main
-El foco de la aplicacion es para creación de chats con cualquier usuario, enviar y recibir mensajes e imagenes.
+El foco de la aplicacion es para creación de chats con cualquier usuario, enviar y recibir mensajes, audios, archivos e imagenes (Proximamente llamadas y videollamadas).
 
 * Busqueda de usuarios por name y username
 * Creacion de chats
@@ -34,8 +37,13 @@ El foco de la aplicacion es para creación de chats con cualquier usuario, envia
 Es un chat conectado con socket.io en mi servidor de node.js
 
 * Input que se amplia en multilinea
-* Envio de mensajes e imagenes
+* Envio de mensajes y emogis
+* Envio de audios, archivos, imagenes y ubicación
 * Muestra los mensajes no vistos y vistos
+* Mensajes a multiples personas
+* Programar envio de mensajes
+* Bloquear usuario
+* Borrar mensajes
 
 
 # Proximamente (Actualmente trabajando en ellas)
@@ -49,7 +57,6 @@ Es un chat conectado con socket.io en mi servidor de node.js
 
 ## Chat
 * Eliminar chat
-* Limpiar mensajes
 
 ## PWA
 Se puede descargar la aplicacion como una pwa
