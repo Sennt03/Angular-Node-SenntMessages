@@ -42,11 +42,14 @@ class App{
 
     routes(){
         router(this.app)
-        this.app.use(express.static(path.join(__dirname, '/uploads/docs')))
-
+        
+        this.app.use(express.static(path.join(__dirname, '../public')))
         this.app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../public/index.html'))
         })
+
+        this.app.use(express.static(path.join(__dirname, '/uploads/docs')))
+
     }
 
     errHandlers(){
