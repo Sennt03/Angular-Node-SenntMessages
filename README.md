@@ -1,5 +1,8 @@
 # SenntMessages
 App de mensajeria en tiempo real con socket.io
+* Envio de mensajes, audios, imagenes, documentos, ubicación.
+* Eliminar mensajes, bloquear usuarios, traducir mensajes.
+* Configuración de perfil, cambio de contraseña.
 LINK: https://senntmessages.up.railway.app/
 
 ## Detalles
