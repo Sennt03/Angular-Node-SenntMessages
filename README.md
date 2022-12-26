@@ -3,6 +3,7 @@ App de mensajeria en tiempo real con socket.io
 * Envio de mensajes, audios, imagenes, documentos, ubicación.
 * Eliminar mensajes, bloquear usuarios, traducir mensajes.
 * Configuración de perfil, cambio de contraseña.
+
 LINK: https://senntmessages.up.railway.app/
 
 ## Detalles
@@ -60,6 +61,7 @@ Es un chat conectado con socket.io en mi servidor de node.js
 
 ## Chat
 * Eliminar chat
+* Llamadas y Videollamadas
 
 ## PWA
 Se puede descargar la aplicacion como una pwa
