@@ -8,7 +8,11 @@ export class CreateUrlPipe implements PipeTransform {
 
   transform(value: string): string {
     let url: any = value.split('/')
-    url = environment.url_base + '/' + url[url.length - 1]
+    if(environment.production){
+      url = '/' + url[url.length - 1]
+    }else{
+      url = environment.url_base + '/' + url[url.length - 1]
+    }
     return url
   }
 
