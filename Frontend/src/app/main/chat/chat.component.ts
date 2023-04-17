@@ -18,6 +18,7 @@ import { SocketService } from '@services/socket.service';
 
 import { saveAs } from 'file-saver';
 import { LsChat } from '@models/chat.model';
+import { CallService } from '@services/call.service';
 
 @Component({
   selector: 'app-chat',
@@ -54,6 +55,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   constructor(
     public messageService: MessageService,
     private chatService: ChatService,
+    private callService: CallService,
     private authService: AuthService,
     private socketService: SocketService,
     private route: ActivatedRoute,
@@ -105,8 +107,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
   }
 
-  call(){
-    sendAlert(this.eventOpenAlert, 'Coming soon')
+  call(type: 'voice' | 'video'){
+    // sendAlert(this.eventOpenAlert, 'Coming soon')
+    this.callService.createCall(this.chatUser._id, type).subscribe(peer => {
+      this.router.navigate(['/call', peer.id])
+    })
   }
 
   observeFinal(){

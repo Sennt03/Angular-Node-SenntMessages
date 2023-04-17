@@ -9,8 +9,8 @@
             <p>{{ chatUser?.name || '...' }}</p>
         </div>
         <div class="icons">
-            <mat-icon class="camera" (click)="call()">videocam</mat-icon>
-            <mat-icon class="phone" (click)="call()"> local_phone</mat-icon>
+            <mat-icon class="camera" (click)="call('video')">videocam</mat-icon>
+            <mat-icon class="phone" (click)="call('voice')"> local_phone</mat-icon>
             <div class="container-menu">
                 <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu"><mat-icon class="menu">more_vert</mat-icon></button>
                 <mat-menu #menu="matMenu" xPosition="before">

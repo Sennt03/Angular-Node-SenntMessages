@@ -1,9 +1,10 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Peer, { MediaConnection } from 'peerjs';
-import { BehaviorSubject, catchError, ObservableInput, throwError } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, ObservableInput, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AuthService } from './auth.service';
+import { LsPeer } from '@models/call.models';
 
 @Injectable({
   providedIn: 'root'
@@ -26,18 +27,18 @@ export class CallService {
   ) { }
 
   // HTTP
-  createCall(to: string, type = 'voice'){
-    return this.http.post(`${this.url}/createCall`, {to, type})
+  createCall(to: string, type = 'voice'): Observable<LsPeer>{
+    return this.http.post<LsPeer>(`${this.url}/createCall`, {to, type})
     .pipe(catchError(err => { return this.handleError(err) }))
   }
   
-  getPeer(peerId: string){
-    return this.http.get(`${this.url}/getPeer/${peerId}`)
+  getPeer(peerId: string): Observable<LsPeer>{
+    return this.http.get<LsPeer >(`${this.url}/getPeer/${peerId}`)
     .pipe(catchError(err => { return this.handleError(err) }))
   }
   
-  sendCall(peerId: string){
-    return this.http.post(`${this.url}/sendCall`, {peerId})
+  sendCall(peerId: string): Observable<LsPeer>{
+    return this.http.post<LsPeer>(`${this.url}/sendCall`, {peerId})
     .pipe(catchError(err => { return this.handleError(err) }))
   }
   
@@ -63,7 +64,8 @@ export class CallService {
           this.peer = new Peer(idPeer, {
             host: environment.peer.host,
             port: environment.peer.port,
-            path: environment.peer.path
+            path: environment.peer.path,
+            secure: false
           })
           return true
         } catch (error) {

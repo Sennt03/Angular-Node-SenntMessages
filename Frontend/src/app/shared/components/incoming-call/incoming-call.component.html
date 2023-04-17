@@ -1,1 +1,21 @@
-<p>incoming-call works!</p>
+<div *ngIf="data" class="contain">
+    <img [src]="data.from.image.url" alt="imagen de usuario">
+    <div class="text">
+        <p class="name">{{data.from.name}}</p>
+        <p class="username">~ {{data.from.username}}</p>
+    </div>
+    <div class="buttons">
+        <button (click)="answer(false)" mat-fab color="primary" class="btn_colgar">
+            <mat-icon>call_end</mat-icon>
+        </button>
+        <button *ngIf="data.type == 'voice'; else video" (click)="answer(true)" mat-fab color="primary" class="btn_answer animate__animated animate__bounce animate__infinite">
+            <mat-icon>call</mat-icon>
+        </button>
+    </div>
+</div>
+
+<ng-template #video>
+    <button (click)="answer(true)" mat-fab color="primary" class="btn_answer animate__animated animate__bounce animate__infinite">
+        <mat-icon>videocam</mat-icon>
+    </button>
+</ng-template>

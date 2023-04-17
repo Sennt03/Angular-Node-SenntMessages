@@ -17,6 +17,10 @@ const routes: Routes = [
         loadChildren: () => import('./chat/chat.module').then(m => m.ChatModule)
       },
       {
+        path: 'call/:idPeer',
+        loadChildren: () => import('./call/call.module').then(m => m.CallModule)
+      },
+      {
         path: 'message',
         loadChildren: () => import('./message/message.module').then(m => m.MessageModule)
       }

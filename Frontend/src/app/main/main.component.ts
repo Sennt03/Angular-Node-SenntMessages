@@ -14,6 +14,8 @@ import { LsMessage } from '@models/message.model';
 import { ChatService } from '@services/chat.service';
 import { sendAlert } from '@shared/utils/alerts';
 import { LsEventOpenAlert } from '@models/alerts.models';
+import { IncomingCallComponent } from '@shared/components/incoming-call/incoming-call.component';
+import { MatDialog } from '@angular/material/dialog';
 
 
 @Component({
@@ -33,13 +35,15 @@ export class MainComponent implements OnInit, OnDestroy {
   subDeleteMessage: Subscription
   subReadMessages: Subscription
   subDeleteSchedule: Subscription
+  subCalls: Subscription
 
   constructor(
     private authService: AuthService,
     private chatService: ChatService,
     private router: Router,
     private socketService: SocketService,
-    private store: Store<AppState>
+    private store: Store<AppState>,
+    public dialog: MatDialog
     ) { 
       this.authService.saveInStore(userDefault, true)
       this.store.select('user').subscribe(user => {
@@ -56,6 +60,7 @@ export class MainComponent implements OnInit, OnDestroy {
     });
     this.listenMessages()
     this.listenSchedules()
+    this.listenCalls()
     this.eventUpdateChats.next(true)
     this.eventUpdateProfileUser.next(true)
     this.eventUpdateUsers.next(true)    
@@ -66,6 +71,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subDeleteMessage.unsubscribe()
     this.subReadMessages.unsubscribe()
     this.subDeleteSchedule.unsubscribe()
+    this.subCalls.unsubscribe()
   }
 
   listenSchedules(){
@@ -168,6 +174,39 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subReadMessages = this.socketService.listen(environment.events.READ_MESSAGES).subscribe(res => {
       this.store.dispatch(new ReadChangeChatAction({chatId: res.chatId}))   
     })
+  }
+
+  listenCalls(){
+    this.subCalls = this.socketService.listen(environment.events.CALL_INCOMING).subscribe(async (res) => {
+        // const modal = await this.modalController.create({
+        //   component: IncomingCallComponent,
+        //   cssClass: 'modal_incoming_call',
+        //   componentProps: {
+        //     data: res
+        //   }
+        // })
+    
+        // modal.onDidDismiss().then(data => {
+        //   if(data.data.answer){
+        //     this.router.navigate(['/call', res.id])
+        //   }
+        // })
+    
+        // modal.present();
+
+        const dialogRef = this.dialog.open(IncomingCallComponent, {
+          // width: '250px',
+          data: res,
+          panelClass: 'modal_incoming_call'
+        });
+      
+        dialogRef.afterClosed().subscribe(data => {
+          if(data.answer){
+            this.router.navigate(['/call', res.id]);
+          }
+        });
+    })
+
   }
   
 }

@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [],
@@ -30,7 +31,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ],
   exports: [
     MatIconModule,
@@ -45,7 +47,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatDialogModule
   ]
 })
 export class MaterialModule { }
