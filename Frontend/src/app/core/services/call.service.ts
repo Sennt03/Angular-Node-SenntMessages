@@ -63,7 +63,7 @@ export class CallService {
         try {
           this.peer = new Peer(idPeer, {
             host: environment.peer.host,
-            port: environment.peer.port,
+            // port: environment.peer.port,
             path: environment.peer.path,
             secure: environment.peer.secure
           })
