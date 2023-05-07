@@ -10,8 +10,9 @@ export const environment = {
     // path: '/peerjs/connect',
     // secure: false
     host: 'messages.david-ruiz.online',
-    port: 3004,
-    path: '/peerjs/connect',
+    port: 433,
+    // path: '/peerjs/connect',
+    path: '/peerjs',
     secure: true
   },
   events: {
