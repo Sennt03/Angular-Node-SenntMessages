@@ -65,7 +65,7 @@ export class CallService {
             host: environment.peer.host,
             port: environment.peer.port,
             path: environment.peer.path,
-            // secure: true
+            secure: environment.peer.secure
           })
           return true
         } catch (error) {

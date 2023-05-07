@@ -11,7 +11,8 @@ export const environment = {
   peer: {
     host: 'localhost',
     port: 3000,
-    path: '/peerjs/connect'
+    path: '/peerjs/connect',
+    secure: false
   },
   events: {
     NEW_MESSAGE: 'new_message',
