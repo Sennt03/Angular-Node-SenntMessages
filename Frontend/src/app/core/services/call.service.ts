@@ -62,11 +62,22 @@ export class CallService {
     if (!this.peer || this.peer.disconnected) {
         try {
           this.peer = new Peer(idPeer, {
-            host: environment.peer.host,
-            port: environment.peer.port,
-            path: environment.peer.path,
-            secure: environment.peer.secure
+            // host: environment.peer.host,
+            // port: environment.peer.port,
+            // path: environment.peer.path,
+            // secure: environment.peer.secure
+            debug: 3,
+            config: {
+                iceServers: [
+                    {
+                        urls: [
+                            'stun:stun1.l.google.com:19302',
+                            'stun:stun2.l.google.com:19302',
+                        ],
+                    }]
+            }
           })
+          
           return true
         } catch (error) {
           return false

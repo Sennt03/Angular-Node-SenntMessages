@@ -83,12 +83,14 @@ export class CallComponent implements OnInit {
   runPeer(){
     if(this.dataPeer.connected[0] != this.user._id){
       if(this.dataPeer.connected.length < 1){
+        console.log('PEEERID', this.peerId)
         this.callService.initPeer(this.peerId)
         console.log('enviando call')
         this.sendCall()
       }else{
-        console.log('reciviendo call')
-        this.callService.initPeer(uuidv4())
+        console.log('reciviendo call', this.dataPeer)
+        // this.callService.initPeer(uuidv4())
+        this.callService.initPeer(this.dataPeer.id)
         this.enterCall()
       }
     }else{
