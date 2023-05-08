@@ -89,8 +89,8 @@ export class CallComponent implements OnInit {
         this.sendCall()
       }else{
         console.log('reciviendo call', this.dataPeer)
-        // this.callService.initPeer(uuidv4())
-        this.callService.initPeer(this.dataPeer.id)
+        this.callService.initPeer(uuidv4())
+        // this.callService.initPeer(this.dataPeer.id)
         this.enterCall()
       }
     }else{
@@ -106,7 +106,6 @@ export class CallComponent implements OnInit {
   }
 
   enterCall(){
-    console.log(this.dataPeer)
     this.callService.establishMediaCall(this.peerId, this.currentStream)
     this.listenCallEnd()
   }
