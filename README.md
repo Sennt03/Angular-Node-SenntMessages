@@ -4,7 +4,7 @@ App de mensajeria en tiempo real con socket.io
 * Eliminar mensajes, bloquear usuarios, traducir mensajes.
 * Configuración de perfil, cambio de contraseña.
 
-LINK: https://messages.david-ruiz.online
+LINK: https://messages.davidruiz.online
 
 ## Detalles
 * La aplicación esta modularizada

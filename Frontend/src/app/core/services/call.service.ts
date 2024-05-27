@@ -87,26 +87,28 @@ export class CallService {
     return true
   }
 
-  public enableCallAnswer(stream): boolean {
+  public enableCallAnswer(stream) {
     try {
+        // this.peer.on('call', async (call) => {
         this.peer.on('call', async (call) => {
 
             this.mediaCall = call;
+            console.log('ENTRO')
 
             this.mediaCall.answer(stream);
             this.mediaCall.on('stream', (remoteStream) => {
               this.remoteStreamBs.next(remoteStream);
             });
         });
-        return true
+        // return true
     }
     catch (ex) {
         console.error(ex)
-        return false
+        // return false
     }
   }
 
-  public establishMediaCall(remotePeerId: string, stream): boolean {
+  public establishMediaCall(remotePeerId: string, stream) {
     try {
         const connection = this.peer.connect(remotePeerId);
         connection.on('error', err => {
@@ -114,6 +116,7 @@ export class CallService {
         });
 
         this.mediaCall = this.peer.call(remotePeerId, stream);
+        console.log('MEDIA CALL', this.mediaCall)
         if (!this.mediaCall) {
             let errorMessage = 'Unable to connect to remote peer';
             throw new Error(errorMessage);
@@ -121,13 +124,14 @@ export class CallService {
 
         // this.localStreamBs.next(stream);
         this.mediaCall.on('stream', (remoteStream) => {
+          console.log('entro')
           this.remoteStreamBs.next(remoteStream);
         })
-        return true
+        // return true
     }
     catch (ex) {
         console.error(ex)
-        return false
+        // return false
     }
 
   }
